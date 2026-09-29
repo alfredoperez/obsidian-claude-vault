@@ -3,7 +3,7 @@ type: story
 project: worky
 feature: crew-scheduling
 story_id: STORY-004
-slice: now
+slice: next
 priority: P1
 status: draft
 tracker_issue:

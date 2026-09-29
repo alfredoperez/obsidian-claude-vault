@@ -1,0 +1,222 @@
+/* ═══ DASHBOARD ══════════════════════════════════════════════════════════════
+   Structure, not a takeover. The page keeps the vault's normal light ground and
+   reading font; the dashboard adds a distinct display face, widget tiles, and
+   labelled section rules so it reads like a control panel rather than a note.
+
+   Structural language borrowed from 8-Bit Orbit (pixel-unit hard offset shadows,
+   mono uppercase labels) — see toku sources.yml: beautiful-html-templates — and
+   deliberately aligned with the neo-brutalist look of the article diagrams:
+   flat fills, hard borders, offset shadows, no gradients.
+
+   SCOPED: applies only to notes with `cssclasses: dashboard` in frontmatter.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@import url("https://fonts.googleapis.com/css2?family=Tektur:wght@500..900&family=Space+Mono:wght@400;700&display=swap");
+
+.dashboard {
+  --dash-ink: #14161f;
+  --dash-line: #14161f;
+  --dash-muted: #6b7280;
+  --dash-panel: #ffffff;
+  --dash-wash: #f6f7fb;
+  --dash-blue: #2563eb;
+  --dash-teal: #0d9488;
+  --dash-gold: #d97706;
+  --dash-coral: #e11d48;
+  --dash-violet: #7c3aed;
+  --px: 4px;
+  --f-display: "Tektur", "Archivo", system-ui, sans-serif;
+  --f-label: "Space Mono", ui-monospace, monospace;
+}
+
+/* ── headings: display face, hard rules ─────────────────────────────────── */
+.dashboard .markdown-preview-view h1,
+.dashboard h1 {
+  font-family: var(--f-display);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-size: 1.9em;
+  border-bottom: var(--px) solid var(--dash-line);
+  padding-bottom: 0.25em;
+}
+.dashboard h2 {
+  font-family: var(--f-display);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  font-size: 1.25em;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--dash-line);
+  padding-bottom: 0.2em;
+  margin-top: 2em;
+}
+.dashboard h3 {
+  font-family: var(--f-label);
+  font-weight: 700;
+  font-size: 0.82em;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dash-muted);
+}
+
+.dashboard .orbit-eyebrow,
+.dashboard .dash-eyebrow {
+  display: inline-block;
+  margin-bottom: 1.2em;
+  font-family: var(--f-label);
+  font-size: 0.7em;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--dash-muted);
+}
+
+/* ── widget tiles ───────────────────────────────────────────────────────── */
+.dashboard .dash-stat,
+.dashboard .orbit-stat {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 132px;
+  margin: 0 calc(var(--px) * 3) calc(var(--px) * 4) 0;
+  padding: 12px 16px 13px;
+  background: var(--dash-panel);
+  border: 2px solid var(--dash-line);
+  box-shadow: var(--px) var(--px) 0 0 var(--dash-line);
+  font-family: var(--f-label);
+  font-size: 0.62em;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dash-muted);
+  vertical-align: top;
+}
+.dashboard .dash-stat > b,
+.dashboard .orbit-stat > b {
+  font-family: var(--f-display);
+  font-size: 2.5em;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: 0;
+  color: var(--dash-ink);
+  font-variant-numeric: tabular-nums;
+}
+.dashboard .dash-stat > i,
+.dashboard .orbit-stat > i {
+  font-style: normal;
+  font-size: 0.94em;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  color: var(--dash-muted);
+  opacity: 0.85;
+}
+/* accent cycle — offset shadow carries the color, fill stays flat white */
+.dashboard .dash-stat:nth-of-type(5n + 1) { box-shadow: var(--px) var(--px) 0 0 var(--dash-blue); }
+.dashboard .dash-stat:nth-of-type(5n + 2) { box-shadow: var(--px) var(--px) 0 0 var(--dash-teal); }
+.dashboard .dash-stat:nth-of-type(5n + 3) { box-shadow: var(--px) var(--px) 0 0 var(--dash-gold); }
+.dashboard .dash-stat:nth-of-type(5n + 4) { box-shadow: var(--px) var(--px) 0 0 var(--dash-violet); }
+.dashboard .dash-stat:nth-of-type(5n + 5) { box-shadow: var(--px) var(--px) 0 0 var(--dash-coral); }
+/* a zero is good news everywhere on this page — mute it */
+.dashboard .dash-stat.is-zero { opacity: 0.45; box-shadow: var(--px) var(--px) 0 0 var(--dash-muted); }
+.dashboard .dash-stat.is-alert > b { color: var(--dash-coral); }
+
+/* clickable tiles */
+.dashboard .dash-stat a.internal-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ── step strip ─────────────────────────────────────────────────────────── */
+.dashboard .orbit-step,
+.dashboard .dash-step {
+  display: inline-block;
+  margin-right: 24px;
+  padding: 5px 12px;
+  background: var(--dash-wash);
+  color: var(--dash-ink);
+  border: 2px solid var(--dash-line);
+  box-shadow: 3px 3px 0 0 var(--dash-line);
+  font-family: var(--f-label);
+  font-size: 0.68em;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  position: relative;
+}
+.dashboard .orbit-step::after,
+.dashboard .dash-step::after {
+  content: "→";
+  position: absolute;
+  right: -19px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--dash-muted);
+}
+.dashboard .orbit-step:last-child::after,
+.dashboard .dash-step:last-child::after { content: ""; }
+
+/* ── tables: control-panel readouts ─────────────────────────────────────── */
+.dashboard table.dataview,
+.dashboard .markdown-rendered table {
+  font-size: 0.86em;
+  border: 2px solid var(--dash-line);
+  box-shadow: var(--px) var(--px) 0 0 var(--dash-line);
+  background: var(--dash-panel);
+}
+.dashboard table.dataview thead th,
+.dashboard .markdown-rendered table thead th {
+  background: var(--dash-wash);
+  font-family: var(--f-label);
+  font-size: 0.82em;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dash-muted);
+  border-bottom: 2px solid var(--dash-line);
+}
+.dashboard table.dataview tbody tr:hover td { background: var(--dash-wash); }
+
+/* ── callouts as panels ─────────────────────────────────────────────────── */
+.dashboard .callout {
+  border: 2px solid var(--dash-line);
+  border-radius: 0;
+  box-shadow: var(--px) var(--px) 0 0 var(--dash-line);
+  background: var(--dash-panel);
+}
+.dashboard .callout-title {
+  font-family: var(--f-label);
+  font-size: 0.78em;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* ── quick links row ────────────────────────────────────────────────────── */
+.dashboard .callout[data-callout="launch"] { --callout-color: 37, 99, 235; }
+.dashboard .callout[data-callout="launch"] .callout-content { line-height: 2.4; }
+.dashboard .callout[data-callout="launch"] .callout-content a.internal-link,
+.dashboard .dash-links a.internal-link {
+  display: inline-block;
+  margin: 0 8px 8px 0;
+  padding: 5px 12px;
+  border: 2px solid var(--dash-line);
+  box-shadow: 3px 3px 0 0 var(--dash-line);
+  background: var(--dash-panel);
+  font-family: var(--f-label);
+  font-size: 0.76em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  color: var(--dash-ink);
+}
+.dashboard .callout[data-callout="launch"] .callout-content a.internal-link:hover,
+.dashboard .dash-links a.internal-link:hover {
+  background: var(--dash-wash);
+  box-shadow: 1px 1px 0 0 var(--dash-line);
+  transform: translate(2px, 2px);
+}
+
+.dashboard hr {
+  border: none;
+  border-top: var(--px) solid var(--dash-line);
+  margin: 2.6em 0;
+}

@@ -1,0 +1,40 @@
+{
+  "skill_name": "groom",
+  "evals": [
+    {
+      "id": 0,
+      "name": "knowledge-ai",
+      "prompt": "/groom knowledge Knowledge/AI",
+      "expected_output": "Audit report flagging Prompt Library.md and How to create Cursor Rules.md as stubs, surfacing the rules-architecture cluster (Meta Rule, Rules files, How to create Cursor Rules), surfacing a learning/memory cluster, and proposing an index.md grouped by Rule Systems / Patterns / Learning & Memory.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "knowledge-react",
+      "prompt": "/groom knowledge Knowledge/React",
+      "expected_output": "Audit report covering all files in Knowledge/React/ — should classify each note, may or may not surface clusters depending on content shape. At minimum: scans all files, produces a coherent report block, proposes an index.md.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "no-arg",
+      "prompt": "/groom knowledge",
+      "expected_output": "Skill should NOT pick a folder unilaterally. It should list the immediate children of Knowledge/ (AI, Angular, DevTools, Health, Interview Prep, Productivity, React, Resources) and ask the user which to groom.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "no-scope",
+      "prompt": "/groom",
+      "expected_output": "Skill should NOT pick a scope unilaterally. It should ask whether to groom vault, knowledge, or project, and make clear that project mode MOVES files into Done/ while vault and knowledge only audit and flag.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "project-move-is-confirmed",
+      "prompt": "/groom project Projects/speckit companion",
+      "expected_output": "Prints a plan block listing files to move to Done/ (terminal status), files kept active, and files with no status field — then asks 'Proceed with the move? (y/n)' and moves NOTHING before an explicit confirmation.",
+      "files": []
+    }
+  ]
+}

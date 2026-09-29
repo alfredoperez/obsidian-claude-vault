@@ -1,0 +1,12 @@
+{
+  "showInlineTitle": false,
+  "alwaysUpdateLinks": true,
+  "promptDelete": false,
+  "attachmentFolderPath": "~Attachments",
+  "focusNewTab": false,
+  "readableLineLength": true,
+  "strictLineBreaks": false,
+  "tabSize": 5,
+  "spellcheck": false,
+  "propertiesInDocument": "hidden"
+}

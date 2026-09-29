@@ -1,0 +1,60 @@
+/* Tokyo Night NAVIGATION PANE — dark left rail, light everywhere else.
+
+   Driven entirely through Notebook Navigator's official --nn-theme-* variables,
+   so the list pane and the editor stay on the light theme. Toggle the snippet
+   off to revert. This is the ONLY dark surface in the vault; the rest of the
+   app is moonstone + Catppuccin and stays that way.
+
+   Two tints of one hue:
+     #7aa2f7  Tokyo Night `blue`  — the bright value, used here on the dark rail
+     #3d59a1  Tokyo Night `blue0` — the darkened twin, set as Obsidian's
+              accentColor so it carries into links, buttons, checkboxes and the
+              settings tab on the LIGHT side.
+   Same hue, two grounds. The bright one manages only ~2.9:1 against white, so
+   it cannot be the global accent; the dark one would disappear on #1a1b26.
+   Change one and you must change the other, or the app stops looking like one
+   thing. --nn-theme-navitem-icon-color below is the accent's bright twin. */
+body {
+  --nn-theme-nav-bg: #1a1b26;
+  --nn-theme-navitem-name-color: #c0caf5;
+  --nn-theme-navitem-file-name-color: #a9b1d6;
+  --nn-theme-navitem-icon-color: #7aa2f7;
+  --nn-theme-navitem-chevron-color: #565f89;
+  --nn-theme-navitem-count-color: #565f89;
+  --nn-theme-navitem-count-bg: rgba(122, 162, 247, 0.10);
+  --nn-theme-navitem-hover-bg: rgba(122, 162, 247, 0.10);
+  --nn-theme-navitem-selected-bg: rgba(122, 162, 247, 0.34);
+  --nn-theme-navitem-selected-name-color: #ffffff;
+  --nn-theme-navitem-selected-icon-color: #ffffff;
+  --nn-theme-navitem-selected-chevron-color: #c0caf5;
+  --nn-theme-navitem-selected-count-color: #c0caf5;
+  --nn-theme-navitem-selected-count-bg: rgba(255, 255, 255, 0.14);
+  --nn-theme-navitem-selected-inactive-bg: rgba(122, 162, 247, 0.18);
+  --nn-theme-navitem-selected-inactive-name-color: #c0caf5;
+  --nn-theme-navitem-selected-inactive-icon-color: #a9b1d6;
+  /* Indent guides carry the tree structure, so they have to be legible — at
+     0.12 alpha on #1a1b26 they were effectively invisible. Tinted with the
+     accent rather than plain white: on a blue-black ground a neutral grey line
+     reads as dirt, an accent-tinted one reads as structure. Separators stay
+     quieter than the guides; they divide, they don't inform. */
+  --nn-theme-nav-indent-guide-color: rgba(122, 162, 247, 0.34);
+  --nn-theme-nav-separator-color: rgba(192, 202, 245, 0.14);
+  --nn-theme-nav-leader-color: rgba(122, 162, 247, 0.28);
+}
+
+/* one accent everywhere: hover/secondary states derive from the accent
+   instead of Catppuccin's separate blue */
+body {
+  --interactive-accent-hover: color-mix(in srgb, var(--interactive-accent) 82%, white);
+}
+
+/* Quicksand runs thin at UI sizes — medium weight for all chrome text */
+.nn-navigation-pane,
+.nn-list-pane,
+.workspace-tab-header,
+.modal.mod-settings,
+.vertical-tab-header,
+.menu {
+  font-weight: 500;
+}
+.nn-list-pane { --nn-theme-file-name-font-weight: 600; }

@@ -1,0 +1,12 @@
+{
+  "cssTheme": "",
+  "theme": "moonstone",
+  "baseFontSize": 16,
+  "accentColor": "#3d59a1",
+  "enabledCssSnippets": [
+    "vault",
+    "bear-sidebar",
+    "highlight-shapes"
+  ],
+  "nativeMenus": false
+}

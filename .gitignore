@@ -1,0 +1,5 @@
+.obsidian/workspace*.json
+.obsidian/plugins/
+.DS_Store
+_Triage/*
+!_Triage/.gitkeep

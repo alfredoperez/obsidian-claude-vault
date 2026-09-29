@@ -1,0 +1,1443 @@
+/* ============================================================
+   vault.css — global reading fixes + report components.
+
+   Everything here applies vault-wide. Nothing depends on a
+   per-note `cssclasses`. Toggle this one snippet on and every
+   note benefits; toggle it off and the vault is exactly as it
+   was. Sections are independent — delete any block you dislike.
+
+     1. Properties block — compact instead of a wall
+     2. Inline title — hidden only when the note has its own H1
+     3. Tables — readable, and code stops breaking mid-token
+     4. Report components — cards / ticket / phase / figure
+     5. Reading rhythm
+
+   Report components use custom callout types, which only appear
+   in notes that use them:
+     > [!cards|2]  +  > > [!card] Title
+     > [!ticket] A · Title · `small`
+     > [!phase] Phase 0 · Title · `MVP`
+     > [!figure] caption + a ```mermaid block
+   ============================================================ */
+
+/* ---------- 1. PROPERTIES: a metadata strip, not a wall ---------- */
+.metadata-container {
+  --metadata-label-width: 130px;
+  padding: 0;
+  margin-bottom: 1.5em;
+  border: none;
+  border-radius: 0;
+}
+/* the "Properties" heading tells you nothing you can't see */
+.metadata-properties-heading {
+  display: none;
+}
+.metadata-property {
+  font-size: 0.78em;
+  line-height: 1.35;
+  padding: 1px 0;
+  min-height: 0;
+}
+.metadata-property-key,
+.metadata-property-value {
+  font-family: var(--font-interface);
+}
+.metadata-property-key {
+  color: var(--text-faint);
+  font-weight: 500;
+}
+.metadata-property-icon {
+  display: none;
+}
+/* "Add property" is a writing affordance — keep it out of reading */
+.markdown-preview-view .metadata-add-button {
+  display: none;
+}
+/* long values (like `sub`) shouldn't eat the screen */
+.metadata-property[data-property-key="sub"] .metadata-property-value {
+  max-height: 3.2em;
+  overflow: hidden;
+  color: var(--text-muted);
+}
+
+/* ---------- 2. INLINE TITLE: no duplicate headline ---------- */
+/* Most notes have no H1 — the filename IS their title, so it must stay.
+   Reports carry their own H1, so the filename slug prints above it and
+   you see the headline twice. Hide it only for those (`cssclasses: brief`)
+   rather than blanket-hiding titles across the vault. */
+.brief .inline-title {
+  display: none;
+}
+
+/* ---------- 3. TABLES ---------- */
+/* NB: use --font-text, NOT --font-interface. The interface font is
+   Cascadia Mono here, so --font-interface would render table prose
+   in monospace — the bug this whole exercise started with.
+   Airy, rules not boxes: horizontal separators only, no cell grid. */
+.markdown-rendered table {
+  font-family: var(--font-text);
+  font-size: 0.88em;
+  line-height: 1.5;
+  border-collapse: collapse;
+  width: 100%;
+  border: none;
+}
+.markdown-rendered th {
+  font-family: var(--font-text);
+  font-size: 0.7em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-accent);
+  text-align: left;
+  white-space: nowrap;
+  padding: 6px 16px 10px;
+  border: none;
+  border-bottom: 1.5px solid var(--background-modifier-border);
+}
+.markdown-rendered td {
+  padding: 12px 16px;
+  vertical-align: top;
+  border: none;
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+.markdown-rendered td:first-child {
+  padding-left: 0;
+  font-weight: 600;
+}
+.markdown-rendered th:first-child {
+  padding-left: 0;
+}
+.markdown-rendered tbody tr:last-child td {
+  border-bottom: none;
+}
+.markdown-rendered tbody tr:hover td {
+  background: var(--background-modifier-hover);
+}
+/* `/code-review` must never wrap into `/code-` + `review` */
+.markdown-rendered table code {
+  white-space: nowrap;
+  font-size: 0.9em;
+}
+
+/* ---------- 0. LIGHT PALETTE — ported from the HTML brief ---------- */
+/* These are the literal tokens from the brief's own :root block, so light
+   mode matches the page it was converted from. !important because
+   AnuPpuccin sets these with higher specificity (.theme-light.ctp-latte)
+   and a snippet would otherwise lose the cascade. Dark mode is untouched —
+   AnuPpuccin still owns it. */
+body.theme-light {
+  --background-primary: #ffffff !important;
+  --background-primary-alt: #f6f8fb !important;
+  --background-secondary: #f6f8fb !important;
+  --background-secondary-alt: #eef2f7 !important;
+
+  --text-normal: #1f2428 !important;
+  --text-muted: #69727c !important;
+  --text-faint: #8b939c !important;
+  /* Links follow the accent rather than a literal, so there is exactly one blue
+     in the vault. Both were #0a57d0; the accent is now Tokyo Night's blue0. */
+  --text-accent: var(--interactive-accent) !important;
+  --text-accent-hover: var(--interactive-accent) !important;
+  --text-title-h1: #0a0d10 !important;
+
+  --background-modifier-border: #dde2e8 !important;
+  --background-modifier-border-hover: #cfd6de !important;
+  --background-modifier-hover: #f6f8fb !important;
+
+  --code-background: #f4f6f9 !important;
+  --blockquote-border-color: #cfd6de !important;
+}
+/* the thesis callout: the brief's soft blue note panel */
+body.theme-light .callout[data-callout="note"] {
+  --callout-color: 10, 87, 208;
+  background: #eaf1fd !important;
+  border: 1px solid #bcd5f5 !important;
+}
+body.theme-light .callout[data-callout="note"] > .callout-title {
+  background: transparent !important;
+}
+
+/* ---------- 3b. MATRIX CHIPS ---------- */
+/* A capability grid should be readable as a *pattern* of colour, not as a
+   field of emoji. Emoji are loud, differently-sized, and pull the eye to
+   the icon instead of the shape of the data. These are soft cells with the
+   word still inside — so the text stays searchable and screen-readable. */
+.c-ok,
+.c-mid,
+.c-no {
+  display: block;
+  text-align: center;
+  padding: 5px 8px;
+  border-radius: 7px;
+  border: 1px solid;
+  font-family: var(--font-monospace);
+  font-size: 0.88em;
+  line-height: 1.3;
+}
+/* exact values lifted from the brief's stylesheet */
+.c-ok {
+  color: #1a7f4b;
+  background: #e6f5ec;
+  border-color: #b6e0c7;
+}
+.c-mid {
+  color: #9a6700;
+  background: #fbf1da;
+  border-color: #ecd9a6;
+}
+.c-no {
+  color: #c0392b;
+  background: #fdecea;
+  border-color: #e3a39b;
+}
+/* dark mode: same hues, inverted for contrast on a dark ground */
+.theme-dark .c-ok {
+  color: #6ecf9f;
+  background: rgba(26, 127, 75, 0.16);
+  border-color: rgba(110, 207, 159, 0.32);
+}
+.theme-dark .c-mid {
+  color: #e0b457;
+  background: rgba(154, 103, 0, 0.18);
+  border-color: rgba(224, 180, 87, 0.32);
+}
+.theme-dark .c-no {
+  color: #e78b88;
+  background: rgba(192, 57, 43, 0.14);
+  border-color: rgba(231, 139, 136, 0.3);
+}
+/* the legend's swatches must match the cells exactly */
+.chip-key {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  padding: 0;
+  border-radius: 4px;
+  vertical-align: -2px;
+  margin-right: 3px;
+}
+
+/* Inline status badges. A spec tags each API / control / decision with a status
+   word — NEW, existing, a follow-up, an open question. As bare **bold** or `code`
+   they read as noise; as small pills the eye scans the *pattern* of what's new vs
+   already there. These are inline (unlike .c-ok, which is a block table cell) and
+   reuse the same palette: green = c-ok, amber = c-mid, blue = the card blue. */
+.badge-new,
+.badge-existing,
+.badge-later,
+.badge-open {
+  display: inline;
+  padding: 1px 7px;
+  border-radius: 999px;
+  border: 1px solid;
+  font-family: var(--font-interface);
+  font-size: 0.72em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  vertical-align: 1px;
+}
+.badge-new      { color: #1a7f4b; background: #e6f5ec; border-color: #b6e0c7; } /* built for this feature */
+.badge-existing { color: #5b6472; background: #eef0f3; border-color: #d6dae0; } /* already in the app */
+.badge-later    { color: #3d59a1; background: #eef4fd; border-color: #c9dcf7; } /* follow-up release */
+.badge-open     { color: #9a6700; background: #fbf1da; border-color: #ecd9a6; } /* unresolved */
+.theme-dark .badge-new      { color: #6ecf9f; background: rgba(26, 127, 75, 0.16);  border-color: rgba(110, 207, 159, 0.32); }
+.theme-dark .badge-existing { color: #aeb6c2; background: rgba(120, 130, 148, 0.16); border-color: rgba(174, 182, 194, 0.28); }
+.theme-dark .badge-later    { color: #7fb0f5; background: rgba(10, 87, 208, 0.18);   border-color: rgba(127, 176, 245, 0.32); }
+.theme-dark .badge-open     { color: #e0b457; background: rgba(154, 103, 0, 0.18);   border-color: rgba(224, 180, 87, 0.32); }
+
+/* Review-state chips. A different axis from the status badges above: those tag
+   *content* (is this API new?), these tag a whole section's *review state* as the
+   author walks the spec. Outline — not filled — so a grey "todo" review chip never
+   reads as the grey filled "existing" content badge sitting beside it. Hand-set the
+   word; a plain span, no plugin, survives a Notion round-trip. */
+.review-todo,
+.review-questions,
+.review-ready {
+  display: inline;
+  padding: 1px 8px;
+  border-radius: 999px;
+  border: 1px solid;
+  background: transparent;
+  font-family: var(--font-interface);
+  font-size: 0.66em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  vertical-align: 2px;
+}
+.review-todo      { color: #7a828e; border-color: #c4cad2; }
+.review-questions { color: #9a6700; border-color: #e2c56a; }
+.review-ready     { color: #1a7f4b; border-color: #7fc39c; }
+.theme-dark .review-todo      { color: #9aa2ae; border-color: rgba(154, 162, 174, 0.4); }
+.theme-dark .review-questions { color: #e0b457; border-color: rgba(224, 180, 87, 0.4); }
+.theme-dark .review-ready     { color: #6ecf9f; border-color: rgba(110, 207, 159, 0.4); }
+
+/* ---------- 4. REPORT COMPONENTS ---------- */
+/* cards: a layout device, so strip its chrome and its title bar */
+.callout[data-callout="cards"] {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 1.5em 0;
+  box-shadow: none;
+  mix-blend-mode: normal;
+}
+.callout[data-callout="cards"] > .callout-title {
+  display: none;
+}
+.callout[data-callout="cards"] > .callout-content {
+  display: grid;
+  gap: 14px;
+  padding: 0;
+  background: none;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.callout[data-callout="cards"][data-callout-metadata="3"] > .callout-content {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+/* |4 and |5 were already in use in notes before they had a rule here, so they
+   silently rendered as 2 columns. */
+.callout[data-callout="cards"][data-callout-metadata="4"] > .callout-content {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.callout[data-callout="cards"][data-callout-metadata="5"] > .callout-content {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+/* |1 is a lone card — a finalist, a single proposal, a picked winner — not half
+   of a compare. Give it the full width. Without this rule it fell through to the
+   default 2-up grid and rendered in one column with an empty second one, which
+   shrank the image to half-size and crammed the note into a narrow rag. Same
+   silent fallback that bit |4 and |5. */
+.callout[data-callout="cards"][data-callout-metadata="1"] > .callout-content {
+  grid-template-columns: minmax(0, 1fr);
+}
+.callout[data-callout="cards"] > .callout-content > .callout {
+  margin: 0;
+  height: 100%;
+}
+@media (max-width: 900px) {
+  .callout[data-callout="cards"] > .callout-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+.callout[data-callout="card"] {
+  --callout-color: 148, 152, 160;
+  background: var(--background-primary-alt);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--callout-radius, 8px);
+  padding: 0 18px 14px;
+}
+/* A two-up compare is two *different* things. Tinting them apart is the
+   whole point of the layout — matched grey boxes make you read to tell
+   them apart. Tint comes from `> [!card|blue]` / `|green` / `|amber`. */
+.callout[data-callout="card"][data-callout-metadata="blue"] {
+  --callout-color: 10, 87, 208;
+  background: rgba(10, 87, 208, 0.06);
+  border-color: rgba(10, 87, 208, 0.2);
+}
+.callout[data-callout="card"][data-callout-metadata="green"] {
+  --callout-color: 26, 127, 75;
+  background: rgba(26, 127, 75, 0.06);
+  border-color: rgba(26, 127, 75, 0.2);
+}
+.callout[data-callout="card"][data-callout-metadata="amber"] {
+  --callout-color: 154, 103, 0;
+  background: rgba(154, 103, 0, 0.06);
+  border-color: rgba(154, 103, 0, 0.2);
+}
+/* light mode: the brief's own soft panel tints, not a wash over grey */
+body.theme-light .callout[data-callout="card"][data-callout-metadata="blue"] {
+  background: #eef4fd;
+  border-color: #c9dcf7;
+}
+body.theme-light .callout[data-callout="card"][data-callout-metadata="green"] {
+  background: #eaf6ef;
+  border-color: #bfe2cd;
+}
+body.theme-light .callout[data-callout="card"][data-callout-metadata="amber"] {
+  background: #fdf6e6;
+  border-color: #edd9a8;
+}
+/* the winner. blue/green/amber all mean "here is a candidate", so the pick needs
+   its own language, not a fourth option-tint: a gold ring, a heavier border, and
+   a ✓ badge, so the chosen card reads as chosen without anyone reading the label.
+   Tag it `> [!card|win]` and drop the trailing "· WINNER" text — the ✓ says it. */
+.callout[data-callout="card"][data-callout-metadata="win"] {
+  --callout-color: 176, 132, 12;
+  background: rgba(214, 158, 0, 0.09);
+  border: 2px solid rgba(214, 158, 0, 0.55);
+  box-shadow: 0 0 0 3px rgba(214, 158, 0, 0.12);
+}
+body.theme-light .callout[data-callout="card"][data-callout-metadata="win"] {
+  background: #fdf3d6;
+  border-color: #e0a800;
+}
+.callout[data-callout="card"][data-callout-metadata="win"] > .callout-title::before {
+  content: "✓ ";
+  font-weight: 700;
+}
+/* the card's label picks up its tint */
+.callout[data-callout="card"][data-callout-metadata] > .callout-title {
+  color: rgb(var(--callout-color));
+}
+/* a card title is a label, not an alert */
+.callout[data-callout="card"] .callout-icon {
+  display: none;
+}
+/* a card title is a label, not an alert banner — no tinted bar behind it */
+.callout[data-callout="card"] > .callout-title,
+.callout[data-callout="card"] > .callout-title::before,
+.callout[data-callout="card"] > .callout-title::after {
+  background: transparent !important;
+  border: none !important;
+}
+.callout[data-callout="card"] > .callout-title {
+  padding: 12px 0 2px;
+  gap: 0;
+  font-family: var(--font-text);
+  font-size: 0.72em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--text-muted);
+}
+.callout[data-callout="card"] > .callout-content {
+  font-size: 0.94em;
+}
+/* An image inside a card fills it. Without this, a two-up compare renders the
+   candidates at whatever size they were generated — 2688px next to 1024px —
+   and you end up judging the render sizes instead of the images. Embeds stay
+   `![[wikilinks]]` (never <img>), or the triage sweep reads them as orphans. */
+.callout[data-callout="card"] .image-embed {
+  display: block;
+  margin: 0.4em 0 0;
+}
+.callout[data-callout="card"] .image-embed img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  border: 1px solid var(--background-modifier-border);
+  /* half-width in a two-up, so the detail is in the zoom — say so */
+  cursor: zoom-in;
+}
+/* In a multi-up compare you are comparing images, not reading paragraphs — three
+   full `Result:` notes side by side is three walls of prose. So clamp each
+   candidate's note to one line (the full text is one hover away), keeping the grid
+   image-forward. The winner and any lone |1 card are exempt: they are read in
+   detail, not scanned. This is the "hide the text, make it easy to compare" half —
+   the prompts themselves are already tucked in folded `[!example]-` blocks. */
+.callout[data-callout="cards"]:not([data-callout-metadata="1"])
+  > .callout-content
+  > .callout:not([data-callout-metadata="win"])
+  > .callout-content
+  > p {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: var(--text-muted);
+}
+.callout[data-callout="cards"]
+  > .callout-content
+  > .callout:hover
+  > .callout-content
+  > p {
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+/* A prompt parked in a folded [!example] wants to be copyable, so it goes in a
+   fenced block — reading view puts a copy button on those for free. But code
+   doesn't wrap, and a 250-word prompt on one line is a horizontal scrollbar.
+   Wrap it: this is prose that happens to want a copy button, not code. */
+.callout[data-callout="example"] pre {
+  white-space: pre-wrap;
+}
+.callout[data-callout="example"] pre code {
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 0.86em;
+}
+
+.callout[data-callout="ticket"] {
+  --callout-color: 197, 143, 42;
+  --callout-icon: lucide-ticket;
+}
+.callout[data-callout="phase"] {
+  --callout-color: 22, 132, 150;
+  --callout-icon: lucide-layers;
+}
+.callout[data-callout="figure"] {
+  --callout-color: 148, 152, 160;
+  --callout-icon: lucide-git-branch;
+}
+.callout[data-callout="figure"] > .callout-title {
+  font-size: 0.85em;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+.callout[data-callout="figure"] > .callout-title {
+  background: transparent !important;
+}
+.callout[data-callout="figure"] .block-language-mermaid {
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+}
+/* Mermaid emits an explicit width and can overflow the callout. Cap it at the
+   container — but do NOT force width:100%. Forcing it stretched every small
+   diagram (three-actor sequence diagrams ballooned to full width) and fought
+   mermaid's own useMaxWidth sizing. `width: auto` keeps the natural size and
+   only the max-width does work. */
+.callout[data-callout="figure"] .block-language-mermaid svg,
+.markdown-rendered .block-language-mermaid svg {
+  width: auto !important;
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+/* MERMAID TEXT METRICS — the cause of clipped labels ("published" → "publishec")
+   Mermaid measures every label in the font it was told about via themeVariables
+   (Geist 13px), then renders it inside a <foreignObject> that inherits whatever
+   the theme puts on the page — here Avenir Next, which is wider. The box is
+   sized from the narrow measurement and the wide glyphs overflow it.
+   Fix: pin the render side to exactly what the init block declares, so measure
+   and render agree by construction. Keep these two values in lockstep with the
+   canonical init block in the obsidian skill's references/components.md. */
+.block-language-mermaid,
+.block-language-mermaid foreignObject > div,
+.block-language-mermaid .nodeLabel,
+.block-language-mermaid .edgeLabel,
+.block-language-mermaid .actor,
+.block-language-mermaid text {
+  font-family: Geist, ui-sans-serif, sans-serif !important;
+  font-size: 13px;
+}
+
+/* MERMAID PALETTE
+   The --mermaid-* variables alone do NOT win: Mermaid writes fill/stroke as
+   inline presentation attributes on the SVG, so the only reliable override is
+   to target the shapes directly. Default is a lavender node in a canary-yellow
+   cluster, which fights everything else on the page. */
+body.theme-light {
+  --mermaid-node-bg: #eef4fd;
+  /* Literal, not var(--interactive-accent): this value is ALSO hardcoded in
+     every mermaid init block, because mermaid writes stroke as an inline
+     presentation attribute and cannot read a CSS variable. Change one, change
+     the init blocks in components.md and vault-components/main.js too. */
+  --mermaid-node-border: #3d59a1;
+  --mermaid-edge: #8b939c;
+  --mermaid-text: #1f2428;
+  --mermaid-cluster-bg: #f8fafc;
+  --mermaid-cluster-border: #dde2e8;
+}
+body.theme-dark {
+  --mermaid-node-bg: rgba(10, 87, 208, 0.18);
+  --mermaid-node-border: #6f9ff0;
+  --mermaid-edge: #79828d;
+  --mermaid-text: #dfe4ea;
+  --mermaid-cluster-bg: rgba(255, 255, 255, 0.03);
+  --mermaid-cluster-border: #3a4048;
+}
+/* nodes — but never override a node that carries an explicit classDef */
+.block-language-mermaid .node:not([class*="anchor"]):not([class*="free"]):not([class*="next"]) > rect,
+.block-language-mermaid .node:not([class*="anchor"]):not([class*="free"]):not([class*="next"]) > polygon,
+.block-language-mermaid .node:not([class*="anchor"]):not([class*="free"]):not([class*="next"]) > path {
+  fill: var(--mermaid-node-bg) !important;
+  stroke: var(--mermaid-node-border) !important;
+  stroke-width: 1px !important;
+}
+/* the canary-yellow subgraph box */
+.block-language-mermaid .cluster > rect {
+  fill: var(--mermaid-cluster-bg) !important;
+  stroke: var(--mermaid-cluster-border) !important;
+  stroke-dasharray: 4 3;
+}
+.block-language-mermaid .cluster-label,
+.block-language-mermaid .cluster text {
+  fill: var(--text-muted) !important;
+  font-size: 0.82em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+/* edges */
+.block-language-mermaid .flowchart-link,
+.block-language-mermaid .edgePath .path,
+.block-language-mermaid .relation {
+  stroke: var(--mermaid-edge) !important;
+  stroke-width: 1.4px !important;
+}
+.block-language-mermaid .marker,
+.block-language-mermaid marker path {
+  fill: var(--mermaid-edge) !important;
+  stroke: var(--mermaid-edge) !important;
+}
+/* This rule used to set `font-family: var(--font-text)` (Avenir Next). That was
+   the clipping bug: mermaid had already measured every label in Geist, per the
+   init block, and Avenir Next is wider — so the text overflowed boxes that were
+   sized for narrower glyphs. Colour here, font above, one family everywhere. */
+.block-language-mermaid .nodeLabel,
+.block-language-mermaid .edgeLabel,
+.block-language-mermaid .label {
+  color: var(--mermaid-text) !important;
+}
+/* EDGE LABELS: mermaid's `base` theme derives tertiaryColor by rotating
+   primaryColor's hue +120°. Our primaryColor is pale blue (#eef4fd), so the
+   derived tint lands on pale GREEN and shows up as a chip behind every edge
+   label. The real fix is `edgeLabelBackground: '#ffffff'` in the init block —
+   set it EXPLICITLY, never `transparent`: mermaid pushes theme colours through
+   a parser that does not round-trip `transparent`, and it resolves toward black,
+   which paints a near-BLACK chip instead. Ask me how I know.
+
+   This rule is only a backstop for the HTML side of the label. There is
+   deliberately no `rect { fill: … !important }` companion here: forcing the
+   SVG rect made mermaid's bad fill solid instead of hiding it, so the colour
+   is left entirely to the init block where it belongs. */
+.block-language-mermaid .edgeLabel,
+.block-language-mermaid .edgeLabel p,
+.block-language-mermaid .edgeLabel .labelBkg,
+.block-language-mermaid .edgeLabel foreignObject > div {
+  background: var(--background-primary) !important;
+  background-color: var(--background-primary) !important;
+}
+/* TERMINAL: a console transcript, drawn as an actual terminal window.
+
+   It used to be a pale grey box with the same mono text as everything else,
+   which read as "some indented text" rather than "a machine said this". A real
+   terminal is DARK — that is the single strongest signal, and it costs nothing.
+   The ground is Tokyo Night #1a1b26, the same surface as the navigation pane,
+   so the two dark things in the vault are deliberately the same dark thing.
+
+   Traffic lights are drawn on the title bar with a three-stop gradient rather
+   than three elements: a callout title has one usable pseudo-element, and this
+   keeps the whole window to zero extra markup. Authoring stays plain markdown.
+
+   Use a ```console or ```shell-session fence (not ```text) and Prism tokenises
+   the prompt, so commands come forward and output recedes — see below. That
+   only works in Reading view; Prism does not run in Live Preview. */
+.callout[data-callout="terminal"] {
+  --callout-color: 122, 162, 247;
+  --callout-icon: lucide-terminal;
+  background: #1a1b26;
+  border: 1px solid #2f3347;
+  border-radius: 8px;
+  padding: 0 !important;
+  margin: 1.4em 0;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(16, 18, 28, 0.14), 0 8px 24px -12px rgba(16, 18, 28, 0.5);
+}
+.callout[data-callout="terminal"] > .callout-title {
+  position: relative;
+  padding: 9px 12px 9px 66px !important;
+  gap: 6px;
+  font-family: var(--font-monospace);
+  font-size: 0.7em;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: #7f89ab;
+  background: #16161e !important;
+  border-bottom: 1px solid #2f3347;
+}
+/* the three window dots: red / amber / green at 12px pitch */
+.callout[data-callout="terminal"] > .callout-title::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  width: 38px;
+  height: 10px;
+  transform: translateY(-50%);
+  background:
+    radial-gradient(circle 5px at 5px 50%,  #ff5f57 98%, transparent 100%),
+    radial-gradient(circle 5px at 19px 50%, #febc2e 98%, transparent 100%),
+    radial-gradient(circle 5px at 33px 50%, #28c840 98%, transparent 100%);
+}
+/* the callout's own lucide icon would be a fourth dot — drop it */
+.callout[data-callout="terminal"] > .callout-title .callout-icon {
+  display: none;
+}
+.callout[data-callout="terminal"] > .callout-content {
+  padding: 14px 16px 16px !important;
+}
+.callout[data-callout="terminal"] pre {
+  background: none !important;
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.65;
+}
+.callout[data-callout="terminal"] code {
+  background: none !important;
+  padding: 0;
+  font-size: 0.84em;
+  color: #c0caf5;
+}
+/* Prism's shell-session tokens. A transcript is two voices — what you typed and
+   what came back — and flattening them into one colour is what made this block
+   unreadable. The command is bright, its output steps back, the prompt glyph is
+   dimmest of all because you never actually read it.
+
+   FENCE NAME MATTERS. Obsidian bundles this grammar as `shell-session` and
+   registers exactly two aliases — `sh-session` and `shellsession`. It does NOT
+   alias `console`, so a ```console fence is an unknown language: no tokens, no
+   colour, one flat block. Use ```shell-session.
+
+   The grammar nests: command → { info (user@host:path), shell-symbol (the $),
+   bash (the command itself, with the whole bash grammar inside it) }, and a
+   sibling `output` for everything the machine wrote back. shell-symbol also
+   carries alias `important`, hence the extra selector. */
+.callout[data-callout="terminal"] code .token.command,
+.callout[data-callout="terminal"] code .token.command .token.bash {
+  color: #7aa2f7;
+}
+.callout[data-callout="terminal"] code .token.output {
+  color: #8b93b8;
+}
+.callout[data-callout="terminal"] code .token.command .token.shell-symbol,
+.callout[data-callout="terminal"] code .token.command .token.important,
+.callout[data-callout="terminal"] code .token.command .token.info,
+.callout[data-callout="terminal"] code .token.punctuation {
+  color: #565f89;
+}
+/* bash grammar nested inside the command line */
+.callout[data-callout="terminal"] code .token.function {
+  color: #7dcfff;
+}
+.callout[data-callout="terminal"] code .token.string {
+  color: #9ece6a;
+}
+.callout[data-callout="terminal"] code .token.number {
+  color: #ff9e64;
+}
+.callout[data-callout="terminal"] code .token.keyword,
+.callout[data-callout="terminal"] code .token.builtin {
+  color: #bb9af7;
+}
+.callout[data-callout="terminal"] code .token.comment {
+  color: #565f89;
+  font-style: italic;
+}
+/* Obsidian's copy button sits on --code-background, invisible on the dark
+   window. Re-tone it, and keep it hidden until the block is hovered. */
+.callout[data-callout="terminal"] .copy-code-button {
+  color: #7f89ab !important;
+  background: rgba(192, 202, 245, 0.08) !important;
+  border: 1px solid #2f3347 !important;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+.callout[data-callout="terminal"]:hover .copy-code-button {
+  opacity: 1;
+}
+
+/* CAPTURE — an evidence slot that is still empty. A runbook is mostly holes:
+   paste the output here, drop the screenshot there. An HTML comment renders as
+   nothing, so an unfilled slot is invisible precisely when you are scanning for
+   what is left to do. This reads as a dashed frame you cannot miss; once the
+   evidence lands inside it, the frame stops being a prompt and becomes its
+   caption. Dashed, never solid — solid reads as content that is already there. */
+.callout[data-callout="capture"] {
+  --callout-color: 120, 124, 134;
+  --callout-icon: lucide-paperclip;
+  background: none;
+  border: 1px dashed var(--background-modifier-border);
+  padding: 0 !important;
+  margin: 1.2em 0;
+}
+.callout[data-callout="capture"] > .callout-title {
+  padding: 8px 12px !important;
+  gap: 6px;
+  font-size: 0.8em;
+  font-weight: 500;
+  color: var(--text-faint);
+  background: transparent !important;
+}
+/* An empty slot must still occupy space, or it reads as "nothing goes here"
+   rather than "something is missing". */
+.callout[data-callout="capture"] > .callout-content {
+  padding: 0 12px 12px !important;
+  min-height: 34px;
+}
+.callout[data-callout="capture"] > .callout-content:empty::before,
+.callout[data-callout="capture"] > .callout-content > p:empty::before {
+  content: "empty — paste the evidence here";
+  color: var(--text-faint);
+  font-size: 0.82em;
+  font-style: italic;
+}
+/* A pasted image fills the slot, so evidence lands at a consistent width. */
+.callout[data-callout="capture"] .image-embed img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* STORY MAP — the backbone across the top, releases as rows, stories as notes.
+   A story map is a *grid*, so it is a table; the styling is what makes it read
+   as a wall of cards rather than a spreadsheet. */
+.callout[data-callout="storymap"] {
+  --callout-color: 10, 87, 208;
+  --callout-icon: lucide-layout-grid;
+  background: none;
+  border: 1px solid var(--background-modifier-border);
+  padding: 0 4px 8px;
+}
+/* the title is a caption, not a banner */
+.callout[data-callout="storymap"] > .callout-title {
+  background: transparent !important;
+  font-size: 0.85em;
+  color: var(--text-muted);
+}
+.callout[data-callout="storymap"] table {
+  font-size: 0.82em;
+  table-layout: fixed;
+}
+/* the release label needs a gutter, not a third of the table */
+.callout[data-callout="storymap"] th:first-child,
+.callout[data-callout="storymap"] td:first-child {
+  width: 10%;
+}
+/* the backbone: the user's activities, left to right */
+.callout[data-callout="storymap"] th {
+  color: var(--text-normal);
+  font-size: 0.72em;
+  border-bottom: 2px solid var(--text-accent);
+  padding-bottom: 7px;
+  white-space: normal;
+}
+.callout[data-callout="storymap"] td {
+  border-bottom: 1px dashed var(--background-modifier-border);
+  padding: 9px 7px;
+  vertical-align: top;
+}
+/* the release label down the left edge */
+.callout[data-callout="storymap"] td:first-child {
+  font-size: 0.78em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+/* a story is a sticky note */
+.story,
+.story-done,
+.story-cut {
+  display: block;
+  margin: 3px 0;
+  padding: 6px 8px;
+  border-radius: 5px;
+  border: 1px solid;
+  font-size: 0.94em;
+  line-height: 1.35;
+}
+.story {
+  background: #fdf6e6;
+  border-color: #edd9a8;
+  color: #6b4e08;
+}
+.story-done {
+  background: #e6f5ec;
+  border-color: #b6e0c7;
+  color: #1a7f4b;
+}
+.story-cut {
+  background: var(--background-secondary);
+  border-color: var(--background-modifier-border);
+  color: var(--text-faint);
+  text-decoration: line-through;
+}
+.theme-dark .story {
+  background: rgba(154, 103, 0, 0.18);
+  border-color: rgba(224, 180, 87, 0.32);
+  color: #e0b457;
+}
+.theme-dark .story-done {
+  background: rgba(26, 127, 75, 0.16);
+  border-color: rgba(110, 207, 159, 0.32);
+  color: #6ecf9f;
+}
+/* A legend swatch must be the SAME class as the cell it explains, or the key
+   lies. So `.story`/`.story-done`/`.story-cut` double as swatches when they
+   also carry `.chip-key` — these rules must beat the sticky-note block above. */
+.story.chip-key,
+.story-done.chip-key,
+.story-cut.chip-key {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  padding: 0;
+  margin: 0 3px 0 0;
+  vertical-align: -2px;
+  text-decoration: none;
+}
+
+/* LEGEND: the key under a matrix. One quiet strip, not a paragraph. */
+.callout[data-callout="legend"] {
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0.4em 0 1.6em;
+  mix-blend-mode: normal;
+}
+.callout[data-callout="legend"] > .callout-title {
+  display: none;
+}
+.callout[data-callout="legend"] > .callout-content {
+  padding: 0;
+  font-size: 0.8em;
+  color: var(--text-muted);
+}
+.callout[data-callout="legend"] p {
+  margin: 0;
+}
+
+/* DECISION: a call awaiting your yes/no, with the recommendation pre-filled */
+.callout[data-callout="decision"] {
+  --callout-color: 137, 110, 200;
+  --callout-icon: lucide-git-pull-request-arrow;
+}
+.callout[data-callout="decision"] > .callout-content strong:first-child {
+  color: rgb(var(--callout-color));
+}
+
+/* the `small` / `MVP` chips in a ticket, phase, or decision title */
+.callout[data-callout="decision"] > .callout-title code,
+.callout[data-callout="ticket"] > .callout-title code,
+.callout[data-callout="phase"] > .callout-title code {
+  font-family: var(--font-interface);
+  font-size: 0.68em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(var(--callout-color), 0.18);
+  color: rgb(var(--callout-color));
+}
+
+/* ---------- 5. READING RHYTHM & HEADING HIERARCHY ---------- */
+/* The problem: H2 and H3 both render as white bold at similar size, so a
+   section and its subheading look identical and the page reads flat.
+   Fix with COLOUR + SPACE rather than by inverting sizes, so the outline
+   pane and every other note in the vault still make sense. */
+.markdown-rendered h2 {
+  color: var(--text-accent);
+  margin-top: 2.6em;
+  margin-bottom: 1.1em;
+  letter-spacing: -0.01em;
+}
+.markdown-rendered h3 {
+  color: var(--text-normal);
+  margin-top: 2em;
+  margin-bottom: 0.7em;
+}
+.markdown-rendered h4 {
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  margin-top: 1.8em;
+}
+.markdown-rendered li {
+  margin-block: 0.25em;
+}
+/* the italic lead line that follows a heading is context, not emphasis */
+.markdown-rendered h2 + p > em:only-child,
+.markdown-rendered h3 + p > em:only-child {
+  display: block;
+  font-style: normal;
+  color: var(--text-muted);
+  font-size: 0.94em;
+}
+
+/* --- Line width + code blocks that never wrap --------------------------------
+   Readable-line-length stays ON, but wider than Obsidian's default, so
+   guides and reports breathe. Code blocks (folder trees, terminals) keep
+   their columns: no soft-wrap — they scroll sideways instead of folding
+   every annotation onto the next line. */
+.markdown-source-view.is-readable-line-width .cm-sizer,
+.markdown-reading-view .markdown-preview-sizer {
+  --file-line-width: 48em;
+}
+.markdown-rendered pre,
+.markdown-source-view .HyperMD-codeblock {
+  white-space: pre-wrap !important;
+  word-break: break-word;
+}
+.markdown-rendered pre > code {
+  white-space: pre;
+  word-break: normal;
+}
+
+/* --- CODE BLOCK: give it a frame, not a floating label -----------------------
+   Default Obsidian sets a pale panel and drops the language name in the top
+   right, where it floats over the first line of code with nothing tying it to
+   the block. Read as a whole it looks unfinished — no edge, no header, the
+   language competing with the code for the same corner.
+
+   This gives the block a real header rail: the language sits ON the rail as a
+   tab, the code sits under it. The border is the same #dde2e8 as every other
+   panel in the vault, so a code block reads as a sibling of a card and a table
+   rather than as a foreign object.
+
+   Code is DARK, same #1a1b26 as the terminal and the navigation pane. Three
+   dark surfaces, one colour — prose is the light thing, machine output is the
+   dark thing, and the page reads as two materials instead of six shades of
+   grey. Prism's default pastel-on-white was the weak part, not the layout.
+
+   NOTE ON SELECTORS: this deliberately avoids `:not(:has(…))`. Obsidian 1.8.9's
+   Chromium fails to parse a `:has()` nested inside `:not()`, and an invalid
+   selector drops the ENTIRE rule — which is exactly why the first version of
+   this block did nothing at all. Plain `:has()` is fine. The tree fence and
+   `[!terminal]` opt out via later overrides instead. */
+.markdown-rendered pre:has(> code[class*="language-"]) {
+  position: relative;
+  background: #1a1b26;
+  border: 1px solid #2f3347;
+  border-radius: 8px;
+  padding: 38px 0 0;
+  margin: 1.4em 0;
+  box-shadow: 0 1px 2px rgba(16, 18, 28, 0.14), 0 8px 24px -12px rgba(16, 18, 28, 0.5);
+}
+/* the header rail */
+.markdown-rendered pre:has(> code[class*="language-"])::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 30px;
+  background: #16161e;
+  border-bottom: 1px solid #2f3347;
+  border-radius: 7px 7px 0 0;
+}
+.markdown-rendered pre:has(> code[class*="language-"]) > code {
+  display: block;
+  padding: 14px 16px 16px;
+  font-size: 0.82em;
+  line-height: 1.65;
+  color: #c0caf5;
+}
+/* Obsidian's own language label, moved onto the rail as a tab.
+
+   It is a real element — div.code-block-flair, injected by Obsidian core, not
+   a ::after pseudo-element. Styling ::after here does nothing at all, which is
+   worth stating because it looks like it should work and fails silently. */
+.markdown-rendered pre:has(> code[class*="language-"]) .code-block-flair {
+  top: 0 !important;
+  right: auto !important;
+  left: 14px !important;
+  padding: 0 !important;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  color: #7f89ab !important;
+  background: transparent !important;
+  font-family: var(--font-monospace);
+  font-size: 0.68em;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 1;
+}
+
+/* --- TOKYO NIGHT for code -----------------------------------------------------
+   Obsidian maps Prism onto a set of --code-* CSS variables, and the theme sets
+   them (Catppuccin defines zero .token rules — it only assigns these). So the
+   supported way to retheme code is to redefine the variables, NOT to write
+   .token selectors. An earlier version of this block did the latter, scoped to
+   `pre[class*="language-"]`, and did nothing at all: Obsidian puts the
+   language- class on the <code>, not on the <pre>, so the selector never
+   matched anything.
+
+   Values are folke/tokyonight's `storm` set, same palette as the terminal and
+   the navigation pane.
+
+   SCOPED TO THE <pre>, NOT to .markdown-rendered. Several of these — notably
+   --code-background and --code-normal — also style INLINE `code` in prose.
+   Setting them page-wide turns every inline chip into a dark unreadable box
+   mid-sentence. Declared on the block, they inherit to the tokens inside it
+   and reach nothing else. */
+.markdown-rendered pre:has(> code[class*="language-"]) {
+  --code-normal: #c0caf5;
+  --code-comment: #565f89;
+  --code-keyword: #bb9af7;
+  --code-function: #7aa2f7;
+  --code-string: #9ece6a;
+  --code-value: #ff9e64;
+  --code-property: #7dcfff;
+  --code-tag: #f7768e;
+  --code-important: #ff9e64;
+  --code-punctuation: #9aa5ce;
+}
+
+/* copy button rides the rail's right edge instead of covering line one */
+.markdown-rendered pre:has(> code[class*="language-"]) .copy-code-button {
+  top: 4px;
+  right: 8px;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+.markdown-rendered pre:has(> code[class*="language-"]):hover .copy-code-button {
+  opacity: 1;
+}
+
+/* Terminals opt out of the frame above. A ```console fence produces
+   code.language-console, which matches the generic rule — without this you get
+   a light header rail drawn INSIDE the dark terminal window. The !important
+   declarations up in the terminal block already win on background and padding;
+   these kill the two pseudo-elements, which nothing else can reach. */
+.callout[data-callout="terminal"] pre::before,
+.callout[data-callout="terminal"] pre::after {
+  content: none !important;
+}
+.callout[data-callout="terminal"] pre {
+  border-radius: 0 !important;
+}
+.callout[data-callout="terminal"] pre > code {
+  padding: 0 !important;
+}
+/* the window already has a title bar; a language tab on top of it is noise */
+.callout[data-callout="terminal"] .code-block-flair {
+  display: none !important;
+}
+
+/* --- Settings window: smaller, not full-screen -------------------------------
+   The Settings modal defaults to nearly the whole viewport. Cap it so it reads
+   like a dialog, not a takeover. Adjust the two numbers to taste. Search still
+   works via the settings-search plugin (box at the top of the window). */
+.modal-container .modal.mod-settings {
+  width: min(920px, 82vw);
+  height: min(640px, 80vh);
+}
+/* keep the tab sidebar from eating half the (now narrower) dialog */
+.modal.mod-settings .vertical-tab-header {
+  flex: 0 0 auto;
+  width: 200px;
+}
+
+
+/* --- TREE: a folder/file tree ------------------------------------------------
+   Same quiet-output family as terminal, but airier: trees are scanned
+   line-by-line hunting for one entry, so they get room to breathe. Author
+   with a ```tree fence. The global no-wrap rule keeps `← annotations` on
+   their own line (sideways scroll instead of folding). */
+   A tree is REFERENCE, not machine output — you scan it hunting for one entry
+   — so it stays light while terminal and code went dark. That means it has to
+   undo the dark frame above property by property, since it no longer opts out
+   via a selector. Anything set up there and not reset here will leak. */
+.markdown-rendered pre:has(> code.language-tree) {
+  background: var(--code-background);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  padding: 0;
+  margin: 1.2em 0;
+  box-shadow: none;
+}
+.markdown-rendered pre:has(> code.language-tree)::before {
+  content: "folder tree";
+  position: static;
+  display: block;
+  inset: auto;
+  height: auto;
+  padding: 7px 12px;
+  font-family: var(--font-monospace);
+  font-size: 0.7em;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  background: transparent;
+  border-bottom: 1px solid var(--background-modifier-border);
+  border-radius: 0;
+}
+/* the frame's language tab would print a second "TREE" over the label above */
+.markdown-rendered pre:has(> code.language-tree)::after {
+  content: none;
+}
+.markdown-rendered pre:has(> code.language-tree) .code-block-flair {
+  display: none;
+}
+.markdown-rendered pre:has(> code.language-tree) > code {
+  display: block;
+  padding: 12px 16px 14px;
+  font-size: 0.82em;
+  line-height: 2.05;
+  color: var(--text-normal);
+}
+
+
+/* --- TREE callout: the rich folder tree ---------------------------------------
+   The ```tree fence stays for quick dumps; [!tree] is the readable one for
+   guides. Authoring contract (markdown only, no HTML):
+     title  = root path         > [!tree] Projects/`<project>`/
+     folder = **bold** (gets a folder icon + color)
+     file   = plain text (gets a file icon)
+     note   = *italic* after an em dash (muted)
+     variable = `backticks` (accented)
+   Levels come from list nesting; guides are drawn per level. */
+.callout[data-callout="tree"] {
+  --callout-color: 120, 124, 134;
+  --callout-icon: lucide-folder-tree;
+  background: var(--code-background);
+  border: 1px solid var(--background-modifier-border);
+  padding: 0 !important;
+  margin: 1.2em 0;
+}
+.callout[data-callout="tree"] > .callout-title {
+  padding: 7px 12px !important;
+  gap: 6px;
+  font-family: var(--font-monospace);
+  font-size: 0.78em;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: transparent !important;
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+.callout[data-callout="tree"] > .callout-content {
+  padding: 8px 14px 12px !important;
+  font-family: var(--font-monospace);
+  font-size: 0.85em;
+  line-height: 1.5;
+}
+.callout[data-callout="tree"] .callout-content ul {
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+}
+.callout[data-callout="tree"] .callout-content ul ul {
+  padding-left: 1.1em;
+  margin-left: 0.35em;
+  border-left: 1px solid var(--background-modifier-border);
+}
+.callout[data-callout="tree"] .callout-content li {
+  padding: 1px 0;
+}
+.callout[data-callout="tree"] .callout-content li::marker { content: ""; }
+.callout[data-callout="tree"] .callout-content li:has(> strong)::before { content: "📁 "; }
+.callout[data-callout="tree"] .callout-content li:not(:has(> strong))::before { content: "📄 "; opacity: 0.55; }
+/* Folders and variables used to borrow `var(--color-blue)` / `var(--color-orange)`
+   — the THEME's palette, not this vault's. Under Catppuccin that resolved to an
+   electric blue and a hot orange that appear nowhere else on the page, so a tree
+   sat next to a badge in two different blues.
+
+   Folder names now use the ACCENT rather than a literal. That is deliberate: a
+   folder name in the tree and a folder name in the sidebar are the same thing,
+   so they should be the same colour by construction and not by two hexes that
+   have to be kept in step. It also needs no .theme-dark twin — the accent
+   variable already resolves per theme. */
+.callout[data-callout="tree"] .callout-content strong {
+  font-weight: 650;
+  color: var(--interactive-accent);
+}
+.callout[data-callout="tree"] .callout-content em {
+  font-style: normal;
+  color: var(--text-faint);
+  font-size: 0.92em;
+}
+.callout[data-callout="tree"] .callout-content code {
+  background: none;
+  padding: 0;
+  color: #9a6700;
+}
+.theme-dark .callout[data-callout="tree"] .callout-content code {
+  color: #e0b457;
+}
+
+/* --- STATS: big-number tiles ---------------------------------------------------
+   > [!stats]
+   > <span class="stat"><b>21.3m</b> median wall time</span> <span class="stat">…</span> */
+.callout[data-callout="stats"] {
+  --callout-color: 120, 124, 134;
+  --callout-icon: lucide-bar-chart-3;
+  background: transparent;
+  border: none;
+  padding: 0 !important;
+}
+.callout[data-callout="stats"] > .callout-title { display: none; }
+.callout[data-callout="stats"] > .callout-content { padding: 0 !important; }
+.callout[data-callout="stats"] .callout-content p {
+  display: flex; flex-wrap: wrap; gap: 10px; margin: 0;
+}
+span.stat {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 108px;
+  padding: 10px 14px;
+  background: var(--background-primary-alt);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 8px;
+  font-size: 0.72em;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+span.stat > b {
+  font-size: 1.9em;
+  letter-spacing: 0;
+  text-transform: none;
+  font-weight: 700;
+  color: var(--text-normal);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- LEAD: the opening paragraph, one size up ---------------------------------
+   > [!lead]
+   > One paragraph that frames the whole note. No box, no icon — just presence. */
+.callout[data-callout="lead"] {
+  background: transparent;
+  border: none;
+  padding: 0 !important;
+  margin: 0.4em 0 1.4em;
+}
+.callout[data-callout="lead"] > .callout-title { display: none; }
+.callout[data-callout="lead"] > .callout-content { padding: 0 !important; }
+.callout[data-callout="lead"] .callout-content p {
+  font-size: 1.18em;
+  line-height: 1.55;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* --- CHIP: neutral inline label ------------------------------------------------
+   <span class="chip">drift</span> — a quiet tag; NOT a status (those are badges). */
+span.chip {
+  display: inline-block;
+  padding: 1px 9px;
+  border-radius: 999px;
+  background: var(--background-primary-alt);
+  border: 1px solid var(--background-modifier-border);
+  font-size: 0.78em;
+  font-family: var(--font-monospace);
+  color: var(--text-muted);
+  vertical-align: 0.08em;
+}
+
+/* --- STEPS: a compact pipeline strip -------------------------------------------
+   <span class="step">specify</span> <span class="step">plan</span> … in one line.
+   Arrows draw themselves; the last step gets none. */
+span.step {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 6px;
+  background: var(--background-primary-alt);
+  border: 1px solid var(--background-modifier-border);
+  font-family: var(--font-monospace);
+  font-size: 0.82em;
+  color: var(--text-normal);
+}
+span.step::after {
+  content: "→";
+  margin-left: 14px;
+  margin-right: 4px;
+  color: var(--text-faint);
+  display: inline-block;
+  transform: translateX(11px);
+}
+span.step:last-of-type::after { content: ""; margin: 0; }
+
+/* --- KBD: keycaps ---------------------------------------------------------------
+   <kbd>Cmd</kbd><kbd>K</kbd> */
+.markdown-rendered kbd {
+  display: inline-block;
+  padding: 1px 7px 2px;
+  font-family: var(--font-monospace);
+  font-size: 0.8em;
+  color: var(--text-normal);
+  background: var(--background-primary-alt);
+  border: 1px solid var(--background-modifier-border);
+  border-bottom-width: 2.5px;
+  border-radius: 5px;
+  margin: 0 1px;
+}
+
+/* --- PULL QUOTE: [!quote] as an editorial excerpt -------------------------------
+   For article drafts: a lifted line that breathes, not a boxed callout. */
+.callout[data-callout="quote"] {
+  background: transparent;
+  border: none;
+  border-left: 3px solid var(--background-modifier-border);
+  border-radius: 0;
+  padding: 0.2em 0 0.2em 1.2em !important;
+  margin: 1.6em 0;
+}
+.callout[data-callout="quote"] > .callout-title { display: none; }
+.callout[data-callout="quote"] > .callout-content { padding: 0 !important; }
+.callout[data-callout="quote"] .callout-content p {
+  font-size: 1.22em;
+  line-height: 1.5;
+  font-style: italic;
+  color: var(--text-muted);
+  margin: 0.2em 0;
+}
+
+/* --- Reading rhythm --------------------------------------------------------------
+   Long reports scan by their headings; give sections air above, not below. */
+.markdown-rendered h2 { margin-top: 1.9em; }
+.markdown-rendered h3 { margin-top: 1.5em; }
+
+
+/* --- Bear-like reading: quiet headings + roomier prose --------------------------
+   Headings carry hierarchy through size/weight, not color (the theme's colorful
+   headings read as UI, not writing). Prose gets Bear's breathing room. */
+.markdown-rendered h1, .markdown-rendered h2, .markdown-rendered h3,
+.markdown-rendered h4, .markdown-rendered h5, .markdown-rendered h6,
+.markdown-source-view.mod-cm6 .cm-header {
+  color: var(--text-normal);
+}
+.markdown-rendered p, .markdown-rendered li {
+  line-height: 1.6;
+}
+
+
+/* --- HIGHLIGHT: Bear-style marker ---------------------------------------------
+   ==text== gets Bear's warm sand wash with a marker underline, not a yellow bar. */
+.markdown-rendered mark, .markdown-source-view.mod-cm6 .cm-highlight {
+  background: rgba(233, 196, 138, 0.30);
+  box-shadow: inset 0 -2px 0 rgba(209, 154, 74, 0.55);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+/* Code blocks: long lines scroll inside the block instead of clipping past its edge (reading view). */
+.markdown-rendered pre {
+  overflow-x: auto;
+}
+
+/* ── AP feedback region ─────────────────────────────────────────────────
+   A `---` … `---` divider pair with a FEEDBACK badge on the first line.
+   Plain markdown inside — wraps naturally. Claude sweeps these regions. */
+.badge-feedback {
+  display: inline;
+  padding: 1px 9px;
+  border-radius: 999px;
+  border: 1px solid #b026ff;
+  color: #ffffff;
+  background: #b026ff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  box-shadow: 0 0 6px rgba(176, 38, 255, 0.45);
+}
+/* The divider that OPENS a feedback region goes purple. */
+.markdown-rendered div:has(> hr):has(+ div .badge-feedback) hr {
+  border-color: #b026ff;
+  box-shadow: 0 0 4px rgba(176, 38, 255, 0.5);
+}
+
+/* ── Code blocks: never clip ────────────────────────────────────────────
+   Every code block wraps long lines instead of running past the edge. */
+.markdown-rendered pre,
+.markdown-rendered pre code,
+.markdown-source-view .HyperMD-codeblock,
+.markdown-source-view .cm-line.HyperMD-codeblock span {
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere;
+}

@@ -1,0 +1,84 @@
+/* ============================================================
+   HIGHLIGHT SHAPES — shape presets for Highlightr
+   ============================================================
+
+   Highlightr in `css-classes` mode writes  <mark class="hltr-<name>">  where
+   <name> is the highlighter name lowercased VERBATIM. So preset names must not
+   contain spaces: `Box-Red` → .hltr-box-red, but `Box Red` → a broken
+   two-token class. Add presets in Highlightr's settings; style them here.
+
+   Highlightr also injects its own rule per preset:
+       mark.hltr-<name> { background: <the hex you picked> }
+   That is why every non-fill shape below needs `background: transparent
+   !important` — it has to beat the injected background. The hex you pick in
+   the settings is still what the shape's border/underline uses here, so keep
+   the two in sync.
+
+   Colours are the vault's hues, same values as vault.css:
+     green #1a7f4b · amber #9a6700 · red #c0392b · blue #3d59a1 · grey #5b6472
+   ============================================================ */
+
+/* WIGGLY — a wavy underline. The quietest of the set: it marks a span without
+   putting a block of colour behind it, so it survives inside dense prose where
+   a filled highlight would shout. skip-ink off, or descenders punch holes in
+   the wave and it reads as a dotted line.
+
+   The colour is the ACCENT, not a literal — so this underline is always the
+   same blue as the sidebar selection, the settings tab and every link, and it
+   follows automatically if the accent ever changes. That is also why the preset
+   is named Wiggly-Accent rather than after a colour: the class name is derived
+   from the preset name, so naming it for a hue would go stale the first time
+   the hue moved. */
+mark.hltr-wiggly-accent {
+  background: transparent !important;
+  text-decoration: underline wavy var(--interactive-accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  text-decoration-skip-ink: none;
+}
+
+/* BOX — an outline, no fill. Reads as "this exact token", so it suits an API
+   name or a value you are pointing at, not a whole clause. */
+mark.hltr-box-red {
+  background: transparent !important;
+  border: 1.5px solid #c0392b;
+  border-radius: 3px;
+  padding: 0 3px;
+}
+
+/* CIRCLE — a pill outline. Same idea as the box, rounder and softer; use it
+   for the positive/settled counterpart so the two never read as one shape. */
+mark.hltr-circle-green {
+  background: transparent !important;
+  border: 1.5px solid #1a7f4b;
+  border-radius: 999px;
+  padding: 0 6px;
+}
+
+/* UNDERLINE — a solid band under the text. inset box-shadow rather than
+   border-bottom, so the band sits tight against the baseline and does not
+   change the line box. */
+mark.hltr-underline-blue {
+  background: transparent !important;
+  box-shadow: inset 0 -4px 0 #3d59a1;
+}
+
+/* MARKER-YELLOW deliberately has no rule. It is the classic filled highlighter
+   look, which is exactly what Highlightr's injected background already gives —
+   overriding it here would only re-state the same colour. */
+
+/* Dark mode: same hues, lightened for contrast on a dark ground. Values match
+   the .theme-dark twins in vault.css so a highlight and a badge in the same
+   sentence agree. Only the accent colour changes — the geometry is identical,
+   so a shape means the same thing in both themes. */
+/* No .theme-dark twin for the wiggly one — var(--interactive-accent) already
+   resolves per theme, which is the second reason to use it over a literal. */
+.theme-dark mark.hltr-box-red {
+  border-color: #e78b88;
+}
+.theme-dark mark.hltr-circle-green {
+  border-color: #6ecf9f;
+}
+.theme-dark mark.hltr-underline-blue {
+  box-shadow: inset 0 -4px 0 #7fb0f5;
+}

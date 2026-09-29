@@ -1,0 +1,65 @@
+/* Smaller font for notes opened in the sidebar (reading mode) */
+.mod-right-split .markdown-preview-view {
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+/* Smaller font for sidebar (editing mode) */
+.mod-right-split .cm-content {
+  font-size: 11px;
+}
+
+/* Smaller tasks in sidebar */
+.mod-right-split .task-list-item {
+  font-size: 10px;
+}
+
+/* Smaller dataview tables in sidebar */
+.mod-right-split .dataview {
+  font-size: 10px;
+}
+
+/* Compact headers in sidebar (reading mode) */
+.mod-right-split h1 {
+  font-size: 14px;
+  margin: 6px 0 4px 0;
+}
+
+.mod-right-split h2 {
+  font-size: 12px;
+  margin: 5px 0 3px 0;
+}
+
+.mod-right-split h3 {
+  font-size: 11px;
+  margin: 4px 0 2px 0;
+}
+
+/* Compact headers in sidebar (editing mode) */
+.mod-right-split .cm-header-1 {
+  font-size: 14px;
+}
+
+.mod-right-split .cm-header-2 {
+  font-size: 12px;
+}
+
+.mod-right-split .cm-header-3 {
+  font-size: 11px;
+}
+
+/* Tighter spacing for list items in sidebar */
+.mod-right-split ul {
+  padding-left: 14px;
+  margin: 2px 0;
+}
+
+.mod-right-split li {
+  margin: 2px 0;
+}
+
+/* Smaller checkboxes */
+.mod-right-split input[type="checkbox"] {
+  width: 12px;
+  height: 12px;
+}

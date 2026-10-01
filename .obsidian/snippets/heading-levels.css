@@ -1,39 +1,25 @@
+/* Heading level markers in Live Preview: a small muted H1 to H6 before each heading
+   line the cursor is not on.
 
-body:not(.no-heading-level-in-lp) .is-live-preview .cm-header::before {
-    font-family: var(hsl(var(280) var(18%) 50%));
-    font-size: .9rem;
+   Drawn on the LINE (.HyperMD-header-N), not on the heading text span. A heading that
+   contains inline code or a link is split into several .cm-header-N spans, and a rule on
+   the span drew one marker per span (H2 H2). The line exists once, so the marker does too.
+   Colour is a real hsl() value; the old hsl(var(280) ...) was invalid and silently ignored. */
+
+body:not(.no-heading-level-in-lp) .is-live-preview .cm-line[class*="HyperMD-header-"]:not(.cm-active)::before {
+    font-family: var(--font-interface);
+    font-size: .7em;
+    font-weight: 600;
     font-style: normal;
     line-height: 1em;
-    color:  hsl(var(280) var(18%) 50%);
-    position: relative;
-    bottom: 1px;
-    left: -2px;
-    padding-right: 4px;
-    padding-left: 4px
+    color: hsl(280 18% 50%);
+    vertical-align: middle;
+    padding-right: 6px;
 }
 
-body:not(.no-heading-level-in-lp) .is-live-preview .cm-line:not(.cm-active) > .cm-header-1::before {
-    content: "H1"
-}
-
-body:not(.no-heading-level-in-lp) .is-live-preview .cm-line:not(.cm-active) > .cm-header-2::before {
-    content: "H2"
-}
-
-body:not(.no-heading-level-in-lp) .is-live-preview .cm-line:not(.cm-active) > .cm-header-3::before {
-    content: "H3"
-}
-
-body:not(.no-heading-level-in-lp) .is-live-preview .cm-line:not(.cm-active) > .cm-header-4::before {
-    content: "H4"
-}
-
-body:not(.no-heading-level-in-lp) .is-live-preview .cm-line:not(.cm-active) > .cm-header-5::before {
-    content: "H5"
-}
-
-body:not(.no-heading-level-in-lp) .is-live-preview .cm-line:not(.cm-active) > .cm-header-6::before {
-    content: "H6"
-}
-
-
+body:not(.no-heading-level-in-lp) .is-live-preview .cm-line.HyperMD-header-1:not(.cm-active)::before { content: "H1"; }
+body:not(.no-heading-level-in-lp) .is-live-preview .cm-line.HyperMD-header-2:not(.cm-active)::before { content: "H2"; }
+body:not(.no-heading-level-in-lp) .is-live-preview .cm-line.HyperMD-header-3:not(.cm-active)::before { content: "H3"; }
+body:not(.no-heading-level-in-lp) .is-live-preview .cm-line.HyperMD-header-4:not(.cm-active)::before { content: "H4"; }
+body:not(.no-heading-level-in-lp) .is-live-preview .cm-line.HyperMD-header-5:not(.cm-active)::before { content: "H5"; }
+body:not(.no-heading-level-in-lp) .is-live-preview .cm-line.HyperMD-header-6:not(.cm-active)::before { content: "H6"; }

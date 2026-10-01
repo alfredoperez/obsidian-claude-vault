@@ -106,6 +106,18 @@ The pipeline is <span class="step">validate</span> <span class="step">save</span
 > **does** R002 recurring patterns, R012 ranked suggestions, R013 rain-day reflow.
 > **waits on** a month of board data. Ranking crews by drive time needs the real route orders, and rain-day reflow needs enough moved jobs to know what dispatchers actually do with them. Parked, not queued, because the blocker is outside the work.
 
+## Rolling out Phase 1
+
+Phase 1 ships behind the existing migration runner, one service at a time, on a Tuesday morning when dispatch is quietest.
+
+> [!terminal] migrate the scheduling database before the Crew App release
+> ```bash
+> $ npm run migrate -- --service scheduling --env production
+> applied 0007_availability.sql (12 ms)
+> applied 0008_assignment_replaced_by.sql (9 ms)
+> 2 migrations applied, 0 pending
+> ```
+
 ## What this deliberately does not solve
 
 - **Billing.** A moved job keeps its invoice date. `replaced_by` is the record billing will reconcile against when someone owns billing again; until then, that corner of [[Worky]] stays closed.

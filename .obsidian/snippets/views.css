@@ -1,0 +1,169 @@
+/* views.css: calm styling for the three "views over notes".
+   Styles: (a) Dataview tables (.dataview.table-view-table), (b) the Bases Kanban view,
+   (c) Canvas text cards (the crew-scheduling story map).
+   Switch off: Settings > Appearance > CSS snippets > views (off). Nothing else depends on it.
+   Only colours from the vault palette (paper #fff, wash #f6f8fb, rule #dde2e8, ink #1f2428,
+   muted #69727c, accent #3d59a1). Does not touch vault.css. Checked in Obsidian 1.14.3; notes on each rule. */
+
+/* ── (a) Dataview tables. Class names table-view-table / dataview are documented Dataview output. */
+.markdown-rendered table.dataview.table-view-table,
+.markdown-preview-view table.dataview.table-view-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: none;
+  background: transparent;
+}
+/* Header size matches the plain Dataview header (1.2em of the 0.88em table text, 16.9 px at the
+   default font size, measured in 1.14.3 with this snippet off), so styling never makes it smaller. */
+table.dataview.table-view-table thead > tr > th {
+  font-size: 1.2em;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #69727c;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #dde2e8;
+  padding: 0.5em 0.75em;
+  text-align: left;
+}
+table.dataview.table-view-table tbody > tr > td {
+  border: none;
+  border-bottom: 1px solid #dde2e8;
+  padding: 0.55em 0.75em;
+  vertical-align: top;
+}
+table.dataview.table-view-table tbody > tr:hover { background: #f6f8fb; }
+table.dataview.table-view-table tbody > tr:last-child > td { border-bottom: none; }
+/* Dates stay on one line. The dashboard wraps each formatted date in <span class="dv-date">,
+   so a narrow Date column shows "24 Sep 2026", not three stacked words. */
+.dv-date { white-space: nowrap; }
+
+/* Status chips. Checked in Obsidian 1.14.3 dev tools: Dataview renders a plain cell as
+   <td><span>Backlog</span></td>, with no tag or data attribute to target, so the dashboard
+   queries emit <span class="status-chip status-<value>"> and these rules colour it.
+   Colours are the vault.css badge tints (badge-existing, badge-later, badge-open, badge-new). */
+.status-chip {
+  display: inline-block;
+  font-size: 1em;
+  font-weight: 600;
+  line-height: 1.5;
+  padding: 0.05em 0.65em;
+  border-radius: 999px;
+  border: 1px solid #d6dae0;
+  background: #eef0f3;
+  color: #5b6472;
+  white-space: nowrap;
+}
+.status-chip.status-next { color: #3d59a1; background: #eef4fd; border-color: #c9dcf7; }
+.status-chip.status-in-progress,
+.status-chip.status-open { color: #9a6700; background: #fbf1da; border-color: #ecd9a6; }
+.status-chip.status-done,
+.status-chip.status-decided { color: #1a7f4b; background: #e6f5ec; border-color: #b6e0c7; }
+
+/* ── (b) Bases Kanban. Checked in Obsidian 1.14.3 dev tools: the board renders as
+   .bases-kanban-container > .bases-kanban-column (.bases-kanban-column-header holding
+   .bases-group-value and .bases-kanban-column-count, then the cards .bases-kanban-card).
+   Columns carry no data attribute and CSS cannot match the status text, so colours are keyed by
+   position. Child 1 is a hidden column Bases uses to measure cards; then the groups follow the
+   view's sort (status, ascending): 2 Backlog, 3 In progress, 4 Next. A Done column would sort
+   between Backlog and In progress and shift these colours, so update the list if one appears.
+   Tints are the dashboard status-chip colours (vault.css badge tints). */
+.bases-kanban-container {
+  background: #f6f8fb;
+}
+.bases-kanban-column {
+  --col-bg: #f3f5f8;
+  --col-rule: #dde2e8;
+  --col-ink: #5b6472;
+  --col-chip: #e6eaf0;
+  --col-edge: #9aa3b0;
+  background: var(--col-bg);
+  border: 1px solid var(--col-rule);
+  border-radius: 12px;
+}
+.bases-kanban-column:nth-child(2) { /* Backlog: quiet gray-blue */
+  --col-bg: #f1f3f7; --col-rule: #d6dae0; --col-ink: #5b6472; --col-chip: #e2e6ed; --col-edge: #8c96a5;
+}
+.bases-kanban-column:nth-child(3) { /* In progress: amber */
+  --col-bg: #fdf7ea; --col-rule: #ecd9a6; --col-ink: #9a6700; --col-chip: #f8e7bd; --col-edge: #d6a23a;
+}
+.bases-kanban-column:nth-child(4) { /* Next: slate blue */
+  --col-bg: #f2f6fd; --col-rule: #c9dcf7; --col-ink: #3d59a1; --col-chip: #dde8f9; --col-edge: #6f8fc9;
+}
+.bases-kanban-column:nth-child(5) { /* Done: mint (only if a Done column exists, see above) */
+  --col-bg: #eef8f2; --col-rule: #b6e0c7; --col-ink: #1a7f4b; --col-chip: #d3eedd; --col-edge: #4fae7f;
+}
+/* Header: the status as a pill in the column colour, the count in muted text. */
+.bases-kanban-column-header {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #69727c;
+}
+.bases-kanban-column-header .bases-group-value {
+  display: inline-block;
+  padding: 0.15em 0.75em;
+  border-radius: 999px;
+  border: 1px solid var(--col-rule);
+  background: var(--col-chip);
+  color: var(--col-ink);
+}
+.bases-kanban-column-count {
+  color: #69727c;
+  font-weight: 500;
+}
+/* Cards: white, rounded, a soft shadow and a 3 px edge in the column colour. Bases places each
+   card field absolutely at the left edge, so the side padding goes on the fields. */
+.bases-kanban-card {
+  background: #ffffff;
+  border: 1px solid #e3e7ec;
+  border-left: 3px solid var(--col-edge);
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(31, 36, 40, 0.06), 0 4px 12px rgba(31, 36, 40, 0.07);
+}
+.bases-kanban-card:hover { border-color: #3d59a1; border-left-color: var(--col-edge); }
+.bases-kanban-card-property { padding-inline: 10px 0; }
+/* Readable board. Bases draws the card text at 15 px (labels 12 px) inside 280 px columns; it
+   places columns 280 px apart itself, so narrowing them only adds gaps. Larger card text keeps a
+   three-column board legible when the image is scaled to a blog column. */
+.bases-kanban-card-line { font-size: 19px; color: #3a4048; }
+.bases-kanban-card-label { font-size: 14px; color: #69727c; }
+.bases-kanban-card-property.mod-title .bases-kanban-card-line {
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #1f2428;
+}
+/* The story id as a small chip. */
+.bases-kanban-card-property[data-property="note.story_id"] .bases-kanban-card-line {
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  padding: 0 0.55em;
+  border-radius: 6px;
+  background: var(--col-chip);
+  color: var(--col-ink);
+}
+
+/* ── (c) Canvas cards. Checked in Obsidian 1.14.3 dev tools: a card is
+   .canvas-node > .canvas-node-container > .canvas-node-content; a lane (group) title is
+   .canvas-group-label, not .canvas-node-label as first written. A coloured lane carries
+   .mod-canvas-color-N on its .canvas-node and a light label, so only uncoloured lanes are muted. */
+.canvas-node-container {
+  border-radius: 8px;
+  box-shadow: none;
+}
+.canvas-group-label {
+  letter-spacing: 0.04em;
+}
+.canvas-node:not([class*="mod-canvas-color"]) .canvas-group-label {
+  color: #69727c;
+}
+/* Checked: rendered text cards carry .canvas-node-content.markdown-embed. */
+.canvas-node-content.markdown-embed {
+  padding: 0.5em 0.75em;
+}

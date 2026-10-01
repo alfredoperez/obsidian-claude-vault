@@ -5,7 +5,7 @@ feature: crew-scheduling
 story_id: STORY-002
 slice: now
 priority: P1
-status: draft
+status: Backlog
 tracker_issue:
 covers_requirements: [R014]
 created: 2026-09-28
@@ -17,7 +17,7 @@ inputs:
 tags: [worky, crew-scheduling, story]
 ---
 
-# STORY-002 — Dispatcher sets availability for a crew member
+# STORY-002 — Dispatcher sets availability for a crew member <span class="badge-new">now</span>
 
 **As a** dispatcher,
 **I want** to record a crew member's availability myself when they phone it in,
@@ -49,6 +49,7 @@ tags: [worky, crew-scheduling, story]
 > **Suggested implementation — not prescriptive.**
 
 - **Approach:** Same `PUT /crew/:id/availability` endpoint as STORY-001 with `set_by` taken from the caller's identity; the Console availability strip already exists read-only from Phase 1, so this adds the click handler and the confirm dialog
+- **Flow:** <span class="step">click the strip</span> <span class="step">confirm</span> <span class="step">PUT availability</span> <span class="step">record set_by</span>
 - **Key files:** `dispatch-console/src/board/AvailabilityStrip.tsx`, `services/crew/src/availability/write.ts` (add the "already set by owner" flag in the response so the client can prompt)
 - **Gating wiring:** `PermissionsService.can('scheduling.availability.write')`; falls back to read-only rendering
 - **Dependencies:** STORY-001 (the table and endpoint)

@@ -17,7 +17,7 @@ Applies to every note in the vault.
 title: The composable workflow — master report   # only when the filename is a slug
 date: 2026-06-13
 type: brief                # what it IS  (article-notes, til, prd, brief, story…)
-project: speckit-companion # when it belongs to one
+project: worky             # when it belongs to one
 lifespan: ephemeral        # how long it should LIVE  ← see below
 cssclasses:
   - brief                  # only for reports; suppresses the duplicate filename title
@@ -51,15 +51,15 @@ what it produced (backlog items, fixes, the one-paragraph `sub:` in its own fron
 There is **no `reports.md` digest index anywhere** — the survival summary lives in the
 note's own `title:` + `sub:` frontmatter, where Bases/dataview can list it. There is **no
 `reports/` folder anywhere in the vault**. In `Projects/`, generated output is classified the
-moment it lands (decision doc, backlog items, inbox note, knowledge) or trashed; in `Work/`,
-briefs sit flat in the effort folder.
+moment it lands (decision doc, backlog items, inbox note, knowledge) or trashed; elsewhere,
+briefs sit flat in the folder of the work they belong to.
 
 An unstamped note falls back to its folder (`Knowledge/` → durable, `Sources/` → durable,
 everything else → project). With `reports/` gone there is no folder that implies
 `lifespan: ephemeral` — a brief that reads once **must stamp it explicitly**, and that is the
 whole point: stamping is a *declaration*, made because you know better than the folder does.
 
-Command Center's Triage page reads this and surfaces expired ephemera for archiving. It
+The vault checkup reads this and surfaces expired ephemera for archiving. It
 **proposes**; it never moves anything on its own.
 
 ### Why it is its own key
@@ -67,8 +67,8 @@ Command Center's Triage page reads this and surfaces expired ephemera for archiv
 - **Not `status:`** — already carrying three unrelated pipelines and 25 drifted values
   (`listo`, `bud`, `battletested`, `raw`).
 - **Not `type:`** — a format taxonomy. It says what a note is, never how long it lives.
-- **Never `groom_*`** — Triage's `stripGroomKeys()` deletes every `groom*` key the moment a
-  user clicks an action. A lifespan stored there would silently vanish.
+- **Never `groom_*`** — grooming tools treat `groom*` keys as scratch state and clear them
+  after an action. A lifespan stored there would silently vanish.
 
 ## `status:` — the canonical set
 
@@ -90,13 +90,12 @@ The vault root is the folder that holds `.obsidian/` — write there directly; d
 
 | Domain | Location |
 |---|---|
-| Own distilled thinking, patterns, TILs | `Knowledge/` — `lifespan: durable`; `verified: {by: human:alfredo, at}` added only on human review, never at generation |
+| Own distilled thinking, patterns, TILs | `Knowledge/` — `lifespan: durable`; `verified: {by: human:<name>, at}` added only on human review, never at generation |
 | Notes ON other people's content | `Sources/` — `articles/`, `videos/`, `courses/`, `links/`; self-identify via `type: article-notes\|video-notes\|conference` |
 | Side projects, content | `Projects/` |
-| Day job | `Work/` |
 | Agent communication (feedback for / critiques from Claude, Codex) | `Projects/<project>/inbox/` — `type: inbox`, `lifespan: ephemeral`, from `~Templates/Inbox Note.md` |
-| Work-effort briefs | `Work/<effort>/` — flat, descriptive filename that says what it IS. No `reports/` subfolder anywhere; subfolders are for genuine bundles only (files meaningless apart, named for the bundle). Never a `reports.md` index; never a date prefix; never a numeric prefix (see *Filenames and hubs*) |
-| Tasks | `/Hub.md` only. Never a per-task file. |
+| Briefs | the folder of the project they belong to — flat, descriptive filename that says what it IS. No `reports/` subfolder anywhere; subfolders are for genuine bundles only (files meaningless apart, named for the bundle). Never a `reports.md` index; never a date prefix; never a numeric prefix (see *Filenames and hubs*) |
+| Tasks | the project hub or a daily note in `Journal/`. Never a per-task file. |
 
 Utility folders are `_`-prefixed; the archive is `~Archive/`.
 
@@ -143,7 +142,7 @@ note itself. A hub is a paragraph, an ordered list of the folder's notes with on
 each, and the lifecycle frontmatter — not a document. If it grows past that, the prose
 was a note and belongs in its own file.
 
-Live indexes (`Work/Workstreams.base`, `Work/Investigations.base`, `Projects/Projects.base`)
+Live indexes (a `.base` file such as `Projects/Projects.base`)
 list hubs by `type:`/`status:`; do not hand-maintain `_index.md` tables.
 
 **A hub points at lists. It never duplicates them.** When a hub needs to show work that lives
@@ -151,7 +150,7 @@ elsewhere, link to the notes that hold it rather than aggregating their contents
 An aggregating query fails in both directions and both failures look plausible: too broad and it
 returns hundreds of rows nobody reads, too narrow and it returns nothing while rendering as a
 perfectly healthy empty section. A hand-maintained copy is worse again, because it goes stale
-silently. `Hub.md`'s task section was rewritten three times before this landed, once at 718 rows,
+silently. One hub's task section was rewritten three times before this landed, once at 718 rows,
 once at zero, and finally as a short table pointing at the four notes that actually own the lists.
 
 ## Open what you wrote
@@ -201,7 +200,7 @@ to report a working link as an error, so verify against this list before "fixing
 ## Images & attachments
 
 - **Embed with wikilinks: `![[filename.png]]`** — never a markdown `![](path)` and never an absolute path (Obsidian resolves the bare filename vault-wide).
-- **Co-locate an image with the note that uses it.** A brief at `Work/<effort>/queryable-tables.md` puts its image at `Work/<effort>/queryable-tables-overview.png` — same folder, same slug prefix. General/shared attachments go in **`~Attachments/`** at the vault root.
+- **Co-locate an image with the note that uses it.** A brief at `Projects/Worky/queryable-tables.md` puts its image at `Projects/Worky/queryable-tables-overview.png` — same folder, same slug prefix. General/shared attachments go in **`~Attachments/`** at the vault root.
 - **A user-supplied screenshot** (e.g. one they dropped into the chat, cached under `~/.claude/image-cache/…`) is added by `cp`-ing it into the target folder with a descriptive dated name, then embedding it with `![[…]]`. Add a one-line italic caption under it saying what it shows.
 
 ## Setup — the stylesheet is required

@@ -5,7 +5,7 @@ feature: crew-scheduling
 story_id: STORY-004
 slice: next
 priority: P1
-status: draft
+status: Next
 tracker_issue:
 covers_requirements: [R006]
 created: 2026-09-28
@@ -17,7 +17,7 @@ inputs:
 tags: [worky, crew-scheduling, story]
 ---
 
-# STORY-004 — Dispatcher sees a double-booking warning
+# STORY-004 — Dispatcher sees a double-booking warning <span class="badge-later">next</span>
 
 **As a** dispatcher,
 **I want** the board to warn me when I give a crew two jobs that overlap or sit too far apart, without stopping me,
@@ -52,6 +52,7 @@ tags: [worky, crew-scheduling, story]
 > **Suggested implementation — not prescriptive.**
 
 - **Approach:** Soft rules are data (design D3): a `soft_rule` table with `drive_time_max` and `overlap_tolerance`. The assignment endpoint returns `201` with a `warnings[]` array instead of refusing; accepting a warning writes an `override` row against the assignment, which is what the history reads
+- **Flow:** <span class="step">drop crew</span> <span class="step">soft-rule check</span> <span class="step">201 with warnings</span> <span class="step">accept writes override</span>
 - **Key files:** `services/scheduling/src/rules/soft.ts` (new), `services/scheduling/src/rules/thresholds.ts` (reads `soft_rule`), `dispatch-console/src/board/JobWarning.tsx`, `dispatch-console/src/settings/SoftRules.tsx`
 - **Dependencies:** STORY-003 (the assignment write this decorates)
 - **Suggested split:** overlap first, drive time second if the distance lookup takes longer than expected

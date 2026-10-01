@@ -35,8 +35,8 @@ Two scripts in `.claude/scripts/` are run from the vault root: `generate-terms-i
 
 Every edit was to remove a dependency on the author's machine, not to change what a skill does:
 
-- Vault paths (`~/dev/GitHub/obsidian-vault/...`) became paths relative to the vault root.
-- `obsidian://open?vault=obsidian-vault` became `vault=<vault-name>`.
+- Absolute vault paths became paths relative to the vault root.
+- The `obsidian://open?vault=...` links take a `vault=<vault-name>` placeholder.
 - References to skills not bundled here (`product-journey-map`, `create-diagram`, `create-jira-ticket`, `create-audio`, `create-notebooklm`, `capture-bookmarks`, `reading-level`, `plan`, `sync-gde-stats`, the `article-*` family) were replaced with a one-line inline instruction, or with the bundled equivalent.
 - `checkup` is a vault-only cut. The original also graded published articles, skill usage and upstream drift, which need the author's skills repo.
 - `product-stories` reads the roadmap when there is one, and falls back to the story map's release rows or the PRD's milestones when there is not. Its canonical template lost a section of tracker-specific ids.

@@ -1,258 +1,34 @@
 {
-  "nodes": [
-    {
-      "id": "7f3b32a819f25611",
-      "type": "text",
-      "x": 0,
-      "y": 0,
-      "width": 760,
-      "height": 100,
-      "text": "# Crew Scheduling — story map\nActivities across the top; each row below is a release slice. `✅` landed · `🚧` built, not landed · `⬜` not built. Cyan lane = the backbone the releases hang off; yellow card = a hard blocker."
-    },
-    {
-      "id": "403845008fd0ab8e",
-      "type": "group",
-      "x": -40,
-      "y": 200,
-      "width": 1880,
-      "height": 170,
-      "label": "Backbone · what a dispatcher and a crew do",
-      "color": "5"
-    },
-    {
-      "id": "7bdb32e1c77707b5",
-      "type": "text",
-      "x": 0,
-      "y": 250,
-      "width": 320,
-      "height": 90,
-      "text": "## Set availability"
-    },
-    {
-      "id": "a952dbfb0f7219db",
-      "type": "text",
-      "x": 360,
-      "y": 250,
-      "width": 320,
-      "height": 90,
-      "text": "## Build the day"
-    },
-    {
-      "id": "d203d41224dd852d",
-      "type": "text",
-      "x": 720,
-      "y": 250,
-      "width": 320,
-      "height": 90,
-      "text": "## Assign a crew"
-    },
-    {
-      "id": "201e5953218a7d05",
-      "type": "text",
-      "x": 1080,
-      "y": 250,
-      "width": 320,
-      "height": 90,
-      "text": "## Notify the crew"
-    },
-    {
-      "id": "d76679b20f1192ef",
-      "type": "text",
-      "x": 1440,
-      "y": 250,
-      "width": 320,
-      "height": 90,
-      "text": "## Handle a change"
-    },
-    {
-      "id": "52ee4498e2e62d7b",
-      "type": "group",
-      "x": -40,
-      "y": 390,
-      "width": 1880,
-      "height": 170,
-      "label": "Release 1 · the board replaces the spreadsheet (Denver)"
-    },
-    {
-      "id": "76d8e559265cc299",
-      "type": "text",
-      "x": 0,
-      "y": 440,
-      "width": 320,
-      "height": 90,
-      "text": "## Weekly availability\nWRK-101 ✅"
-    },
-    {
-      "id": "bdb0251c117ea235",
-      "type": "text",
-      "x": 360,
-      "y": 440,
-      "width": 320,
-      "height": 90,
-      "text": "## Job list by day\nWRK-103 🚧"
-    },
-    {
-      "id": "51c9100ff64e7403",
-      "type": "text",
-      "x": 720,
-      "y": 440,
-      "width": 320,
-      "height": 90,
-      "text": "## Drag crew onto job\nWRK-104 🚧",
-      "color": "3"
-    },
-    {
-      "id": "c7df8aaf4e644c56",
-      "type": "text",
-      "x": 1080,
-      "y": 440,
-      "width": 320,
-      "height": 90,
-      "text": "## Publish to Crew App\nWRK-107 ⬜"
-    },
-    {
-      "id": "e5fa33404d4a84a5",
-      "type": "text",
-      "x": 1440,
-      "y": 440,
-      "width": 320,
-      "height": 90,
-      "text": "## Move job to another day\nWRK-109 ⬜"
-    },
-    {
-      "id": "2c4f8ccf13a0c858",
-      "type": "group",
-      "x": -40,
-      "y": 580,
-      "width": 1880,
-      "height": 170,
-      "label": "Release 2 · suggestions, clients, weather"
-    },
-    {
-      "id": "8fef288dade07273",
-      "type": "text",
-      "x": 0,
-      "y": 630,
-      "width": 320,
-      "height": 90,
-      "text": "## Recurring patterns\nWRK-102 ⬜"
-    },
-    {
-      "id": "5b5d00d9938c7e37",
-      "type": "text",
-      "x": 360,
-      "y": 630,
-      "width": 320,
-      "height": 90,
-      "text": "## Rain-day reflow\nWRK-113 ⬜"
-    },
-    {
-      "id": "dc91854951c88085",
-      "type": "text",
-      "x": 720,
-      "y": 630,
-      "width": 320,
-      "height": 90,
-      "text": "## Suggest top three crews\nWRK-112 ⬜"
-    },
-    {
-      "id": "389d54e3193d7ac9",
-      "type": "text",
-      "x": 1080,
-      "y": 630,
-      "width": 320,
-      "height": 90,
-      "text": "## Two-hour client window\nWRK-110 ⬜"
-    },
-    {
-      "id": "ed6a2e426d1361d3",
-      "type": "text",
-      "x": 1440,
-      "y": 630,
-      "width": 320,
-      "height": 90,
-      "text": "## Client reschedule request\nWRK-111 ⬜"
-    }
-  ],
-  "edges": [
-    {
-      "id": "1338f21061b97edb",
-      "fromNode": "76d8e559265cc299",
-      "fromSide": "bottom",
-      "toNode": "8fef288dade07273",
-      "toSide": "top",
-      "toEnd": "arrow",
-      "label": "same table"
-    },
-    {
-      "id": "ee184932d9ae6d47",
-      "fromNode": "76d8e559265cc299",
-      "fromSide": "right",
-      "toNode": "51c9100ff64e7403",
-      "toSide": "left",
-      "toEnd": "arrow",
-      "label": "unavailable rule reads it"
-    },
-    {
-      "id": "4fcd48a4cf06b7c7",
-      "fromNode": "bdb0251c117ea235",
-      "fromSide": "right",
-      "toNode": "51c9100ff64e7403",
-      "toSide": "left",
-      "toEnd": "arrow"
-    },
-    {
-      "id": "f6fa03d81c2e633a",
-      "fromNode": "51c9100ff64e7403",
-      "fromSide": "right",
-      "toNode": "c7df8aaf4e644c56",
-      "toSide": "left",
-      "toEnd": "arrow"
-    },
-    {
-      "id": "b0ee1e43a4a59558",
-      "fromNode": "51c9100ff64e7403",
-      "fromSide": "bottom",
-      "toNode": "e5fa33404d4a84a5",
-      "toSide": "left",
-      "toEnd": "arrow",
-      "label": "same check"
-    },
-    {
-      "id": "dfe96d0b63197100",
-      "fromNode": "51c9100ff64e7403",
-      "fromSide": "bottom",
-      "toNode": "dc91854951c88085",
-      "toSide": "top",
-      "toEnd": "arrow",
-      "label": "needs route order data"
-    },
-    {
-      "id": "e12ff8a65ea7e851",
-      "fromNode": "e5fa33404d4a84a5",
-      "fromSide": "bottom",
-      "toNode": "5b5d00d9938c7e37",
-      "toSide": "right",
-      "toEnd": "arrow",
-      "label": "moves in bulk"
-    },
-    {
-      "id": "8591f940b72baf2a",
-      "fromNode": "e5fa33404d4a84a5",
-      "fromSide": "bottom",
-      "toNode": "ed6a2e426d1361d3",
-      "toSide": "top",
-      "toEnd": "arrow",
-      "label": "dispatcher acts on it"
-    },
-    {
-      "id": "0165d7f3c8f36f58",
-      "fromNode": "c7df8aaf4e644c56",
-      "fromSide": "bottom",
-      "toNode": "389d54e3193d7ac9",
-      "toSide": "top",
-      "toEnd": "arrow",
-      "label": "route order"
-    }
-  ]
+	"nodes":[
+		{"id":"7f3b32a819f25611","type":"text","x":0,"y":0,"width":760,"height":140,"text":"# Crew Scheduling — story map\nActivities across the top; each row below is a release slice. `✅` landed · `🚧` built, not landed · `⬜` not built. Cyan lane = the backbone the releases hang off; yellow card = a hard blocker."},
+		{"id":"403845008fd0ab8e","type":"group","x":-40,"y":200,"width":1880,"height":170,"label":"Backbone · what a dispatcher and a crew do","color":"5"},
+		{"id":"7bdb32e1c77707b5","type":"text","x":0,"y":250,"width":320,"height":90,"text":"## Set availability"},
+		{"id":"a952dbfb0f7219db","type":"text","x":360,"y":250,"width":320,"height":90,"text":"## Build the day"},
+		{"id":"d203d41224dd852d","type":"text","x":720,"y":250,"width":320,"height":90,"text":"## Assign a crew"},
+		{"id":"201e5953218a7d05","type":"text","x":1080,"y":250,"width":320,"height":90,"text":"## Notify the crew"},
+		{"id":"d76679b20f1192ef","type":"text","x":1440,"y":250,"width":320,"height":90,"text":"## Handle a change"},
+		{"id":"52ee4498e2e62d7b","type":"group","x":-40,"y":390,"width":1880,"height":190,"label":"Release 1 · the board replaces the spreadsheet (Denver)"},
+		{"id":"76d8e559265cc299","type":"text","x":0,"y":440,"width":320,"height":120,"text":"## Weekly availability\nWRK-101 ✅"},
+		{"id":"bdb0251c117ea235","type":"text","x":360,"y":440,"width":320,"height":120,"text":"## Job list by day\nWRK-103 🚧"},
+		{"id":"51c9100ff64e7403","type":"text","x":720,"y":440,"width":320,"height":120,"text":"## Drag crew onto job\nWRK-104 🚧","color":"3"},
+		{"id":"c7df8aaf4e644c56","type":"text","x":1080,"y":440,"width":320,"height":120,"text":"## Publish to Crew App\nWRK-107 ⬜"},
+		{"id":"e5fa33404d4a84a5","type":"text","x":1440,"y":440,"width":320,"height":120,"text":"## Move job to another day\nWRK-109 ⬜"},
+		{"id":"2c4f8ccf13a0c858","type":"group","x":-40,"y":720,"width":1880,"height":210,"label":"Release 2 · suggestions, clients, weather"},
+		{"id":"8fef288dade07273","type":"text","x":0,"y":770,"width":320,"height":140,"text":"## Recurring patterns\nWRK-102 ⬜"},
+		{"id":"5b5d00d9938c7e37","type":"text","x":360,"y":770,"width":320,"height":140,"text":"## Rain-day reflow\nWRK-113 ⬜"},
+		{"id":"dc91854951c88085","type":"text","x":720,"y":770,"width":320,"height":140,"text":"## Suggest top three crews\nWRK-112 ⬜"},
+		{"id":"389d54e3193d7ac9","type":"text","x":1080,"y":770,"width":320,"height":140,"text":"## Two-hour client window\nWRK-110 ⬜"},
+		{"id":"ed6a2e426d1361d3","type":"text","x":1440,"y":770,"width":320,"height":140,"text":"## Client reschedule request\nWRK-111 ⬜"}
+	],
+	"edges":[
+		{"id":"1338f21061b97edb","fromNode":"76d8e559265cc299","fromSide":"left","toNode":"8fef288dade07273","toSide":"left","toEnd":"arrow","label":"same table"},
+		{"id":"ee184932d9ae6d47","fromNode":"76d8e559265cc299","fromSide":"right","toNode":"51c9100ff64e7403","toSide":"left","toEnd":"arrow","label":"unavailable rule reads it"},
+		{"id":"4fcd48a4cf06b7c7","fromNode":"bdb0251c117ea235","fromSide":"right","toNode":"51c9100ff64e7403","toSide":"left","toEnd":"arrow"},
+		{"id":"f6fa03d81c2e633a","fromNode":"51c9100ff64e7403","fromSide":"right","toNode":"c7df8aaf4e644c56","toSide":"left","toEnd":"arrow"},
+		{"id":"b0ee1e43a4a59558","fromNode":"51c9100ff64e7403","fromSide":"bottom","toNode":"e5fa33404d4a84a5","toSide":"right","toEnd":"arrow","label":"same check"},
+		{"id":"dfe96d0b63197100","fromNode":"51c9100ff64e7403","fromSide":"bottom","toNode":"dc91854951c88085","toSide":"top","toEnd":"arrow","label":"needs route order data"},
+		{"id":"e12ff8a65ea7e851","fromNode":"e5fa33404d4a84a5","fromSide":"bottom","toNode":"5b5d00d9938c7e37","toSide":"right","toEnd":"arrow","label":"moves in bulk"},
+		{"id":"8591f940b72baf2a","fromNode":"e5fa33404d4a84a5","fromSide":"bottom","toNode":"ed6a2e426d1361d3","toSide":"top","toEnd":"arrow","label":"dispatcher acts on it"},
+		{"id":"0165d7f3c8f36f58","fromNode":"c7df8aaf4e644c56","fromSide":"bottom","toNode":"389d54e3193d7ac9","toSide":"top","toEnd":"arrow","label":"route order"}
+	]
 }

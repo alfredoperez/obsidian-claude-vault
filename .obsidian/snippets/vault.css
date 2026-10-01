@@ -1410,7 +1410,7 @@ span.step:last-of-type::after { content: ""; margin: 0; }
   overflow-x: auto;
 }
 
-/* ── AP feedback region ─────────────────────────────────────────────────
+/* ── Feedback region ─────────────────────────────────────────────────
    A `---` … `---` divider pair with a FEEDBACK badge on the first line.
    Plain markdown inside — wraps naturally. Claude sweeps these regions. */
 .badge-feedback {

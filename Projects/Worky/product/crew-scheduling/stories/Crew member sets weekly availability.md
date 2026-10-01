@@ -5,7 +5,7 @@ feature: crew-scheduling
 story_id: STORY-001
 slice: now
 priority: P0
-status: draft
+status: In progress
 tracker_issue:
 covers_requirements: [R001]
 created: 2026-09-28
@@ -17,7 +17,7 @@ inputs:
 tags: [worky, crew-scheduling, story]
 ---
 
-# STORY-001 — Crew member sets weekly availability
+# STORY-001 — Crew member sets weekly availability <span class="badge-new">now</span>
 
 **As a** crew member,
 **I want** to mark each day of the coming four weeks as available, unavailable, or half-day from my phone,
@@ -54,6 +54,7 @@ tags: [worky, crew-scheduling, story]
 > **Suggested implementation — not prescriptive.** Pointers to reduce discovery time, not requirements.
 
 - **Approach:** New `availability` table per the design doc (`crew_member_id, date, state, set_by, set_at`); upsert on `(crew_member_id, date)`. The Crew App writes through the existing offline queue used for job photos, so the pending-sync mark comes for free
+- **Flow:** <span class="step">pick a day</span> <span class="step">save to offline queue</span> <span class="step">sync</span> <span class="step">upsert availability</span>
 - **Key files:** `crew-app/src/screens/Availability.tsx` (new), `crew-app/src/sync/queue.ts` (reuse), `services/crew/src/availability/` (new module, exposes `GET /crew/:id/availability?from&to` and `PUT`)
 - **Gating wiring:** none; the screen is visible to every crew member
 - **Dependencies:** none. Phase 0 (skills as data) is shipped and unrelated

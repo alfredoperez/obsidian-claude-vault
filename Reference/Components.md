@@ -86,10 +86,9 @@ scannable instead of becoming 3,000 lines of pasted JSON.
 
 ### Feedback region — the reader's notes to Claude, left in the file
 
-The one component **Claude never writes**. Alfredo drops it mid-read (Hyper+F, or the top-level
-"AP feedback" item in the right-click menu, which sits outside the Components submenu because
-two submenu levels is exactly the friction that stops a note from being left) and Claude
-collects them later. It is a pair of dividers with a badge on the first line; everything
+The one component **Claude never writes**. The reader drops it mid-read (a hotkey, or a
+top-level item in the right-click menu, kept out of any submenu because two menu levels is
+exactly the friction that stops a note from being left) and Claude collects them later. It is a pair of dividers with a badge on the first line; everything
 between them is plain markdown, so it wraps and formats like prose with no `>` to fight:
 
 ```markdown
@@ -125,7 +124,7 @@ what's net-new versus already there. Use them in prose and inside table cells.
 ```markdown
 **APIs:** pools list with counts — <span class="badge-new">new</span> `GET work-pool/list`
 
-<span class="badge-open">open</span> Stage-row cascade rule still unspecified — owner: Chad
+<span class="badge-open">open</span> Stage-row cascade rule still unspecified — owner: dispatch lead
 ```
 
 | Class | Means | Tint |
@@ -207,86 +206,6 @@ apart. `|3`, `|4`, and `|5` widen the grid; all of them collapse to one column
 under 900px. **`|1` is a lone card at full width** — a finalist, a single
 proposal, a picked winner. (Don't reach for `|1` to shrink a card; it's the
 opposite — it spans the whole content column.)
-
-### Comparing image candidates
-
-The same grid, holding embeds. This is how you put N takes on one image side by
-side — two generators, two styles, a reshoot vs the original — instead of
-stacking them and scrolling between. Pair it with a collapsed `[!example]-` so
-the prompt is one click away but never in the way:
-
-````markdown
-> [!example]- 🎨 Prompt — Four layers · context
-> ```text
-> Subject: A four-layer context diagram… Style: marker-sketch… Aspect 16:9.
-> ```
-
-> [!cards|2]
-> > [!card|blue] Codex imagegen · marker-sketch 16:9
-> > ![[IMG-living-specs-four-layers.png]]
->
-> > [!card|green] Higgsfield · marker-sketch 16:9
-> > ![[IMG-living-specs-four-layers--higgsfield-marker.png]]
->
-> > [!card|amber] Higgsfield · neo-brutalist 4:3 — alternate
-> > Stray READ arrow lands on Feature Delta.
-> > ![[IMG-living-specs-four-layers--higgsfield.png]]
-````
-
-**Put the prompt in a `text` fence.** Reading view puts a copy button on every
-code block, so a fenced prompt is one click to clipboard — you regenerate by
-copying, not by reselecting 250 words of wrapped text. `vault.css` makes code
-inside an `[!example]` wrap, because a prompt is prose that wants a copy button,
-not code that wants a scrollbar.
-
-An image fills its card, so candidates render at equal width no matter what
-size they were generated at. Give each card a real label (what made it, what
-style) and put any known flaw in the card — a candidate you can't tell apart
-from its neighbor is not a comparison. More than two wrap onto the next row.
-
-**Embed with `![[wikilinks]]`, never `<img>` or backticks.** The triage sweep
-builds its reference graph from wikilinks; an image it can't see is an orphan,
-and orphans get trashed.
-
-**A multi-up compare is image-forward.** `vault.css` clamps each candidate's note
-to one line (the full note is one hover away), so three cards side by side read as
-three images with labels, not three walls of prose. Keep the card note to a single
-scannable sentence — a defect flag or what-made-it — and let the folded `[!example]-`
-hold the full prompt. The winner card and any lone `|1` card are exempt from the
-clamp: they're read in detail, not scanned.
-
-### Marking the winner, and archiving the compare
-
-Once you pick, the compare has done its job. Two moves:
-
-**Tag the pick `|win`.** `blue`/`green`/`amber` all mean "here's a candidate", so
-the winner needs its own language, not a fourth option-tint. `[!card|win]` renders a
-gold ring, a heavier border, and a `✓` badge — it reads as chosen without anyone
-reading the label. Drop any trailing "· WINNER" text; the badge says it.
-
-```markdown
-> [!cards|1]
-> > [!card|win] Codex imagegen · RS9/RS8 hybrid
-> > ![[IMG-living-specs-resolution.png]]
-```
-
-**Move the winner up, the compare down.** The chosen image belongs at its real spot
-in the body (`[!cards|1]` + `[!card|win]`, full width). The losing candidates and
-their prompts belong in a "Candidate archive" section at the end — receipts you keep
-but don't read past. Fold each asset's compare so the archive stays scannable:
-
-````markdown
-## Candidate archive
-
-> [!example]- 🔬 Resolver · ownership — 6 candidates
-> > [!cards|3]
-> > > [!card|blue] RS4 · relaxed
-> > > ![[IMG-...-rs4.png]]
-> > …
-````
-
-The winner reads as resolved in the body; the exploration is one click away, not in
-the way. This is the decision made, with the work behind it kept.
 
 ### Tickets and phases
 
@@ -419,49 +338,6 @@ Rules: `[!lead]` at most once per note, directly under the title. `[!stats]` for
 numbers that ARE the finding — more than that is a table. `chip` vs badge: a chip tags,
 a badge judges. `[!quote]` replaces the old blockquote habit in articles only; in
 reports a plain `>` quote stays a quote.
-
-### Plan components — week rail, day cards, exercise cards
-
-For weekly plans (`Personal/Health/*Plan*`, meal weeks). Designed 2026-08-21 from the
-"Weekly Plan Page" canvas, Direction A. All native callouts + `vault.css`:
-
-```markdown
-> [!week]                                 ← 7-up grid, no chrome (4-up under 900px)
-> > [!day] Mon
-> > <code class="otf">OTF 8am</code>      ← chip; classes: otf (blue) · kb (green) · fast (gold) · none (grey)
-> > 13:11 · protein at 7:15
->
-> > [!day|fast] Thu                       ← |fast tints the whole card
-> > <code class="fast">Fast 24h</code>
-> > walk only
-
-> [!week]                                 ← same rail, task items = the daily-minors checklist
-> > [!day] Mon
-> > - [ ] VILPA ×3
-> > - [ ] 120 g
-
-> [!exgrid]                               ← 2-up grid of exercise cards
-> > [!ex] Goblet squat · `3 × 8-10`       ← title: name · `prescription` (code renders accent)
-> > ![[ex-goblet-squat.png|84]]           ← image on its own paragraph → sits left, 84×84
-> >
-> > Sit back, knees track over toes       ← cue, muted
-
-> [!timeline] Meal rhythm                  ← time-stamped list; bold lead = time or dose
-> - **10:00** First meal · 30 g
-> - **6:00** <code class="fast">Kitchen closed</code>
-```
-
-Day-level tracking is NOT a component: it is one `health-day` note per day in
-`Personal/Health/Days/` (template `~Templates/Health Day.md`) whose `# Day planner`
-section is Day Planner task syntax (`- [ ] 10:00 - 10:20 First meal`), so the plugin
-draws the live timeline; the plan page rolls up `file.tasks` completion with Dataview.
-
-Rules: the week rail holds what is *scheduled* (class time, session, fast); daily
-habits go in a second rail as short task items, never in a table (Obsidian cannot
-render checkboxes in table cells). Chips are inline `<code class>` because `{.cls}`
-attribute syntax is not Obsidian markdown. Exercise images live in `~Attachments/Health/`
-as `ex-<slug>.png`, single-weight black line drawings on off-white; a missing image
-renders a dashed slot, so reference it before it exists.
 
 ### Terminal and figure
 

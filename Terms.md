@@ -21,26 +21,33 @@ cssclasses:
 > This is a **lookup** — which notes touch a term. For **curation** — which concept pages
 > exist and what sits beneath them — a Topics.md curation page, if the vault keeps one.
 
-**19 terms** and **0 claims** across **12 notes**, from `tags`, `keywords`, `entities` and `claims` frontmatter. Notes without those fields do not appear here — that gap is real and is the reason this index supplements a vault-wide grep rather than replacing it.
+**26 terms** and **0 claims** across **19 notes**, from `tags`, `keywords`, `entities` and `claims` frontmatter. Notes without those fields do not appear here — that gap is real and is the reason this index supplements a vault-wide grep rather than replacing it.
 
 ## Terms
 
-- `components` · tags · 1 — [[Components]]
+- `architecture` · tags · 1 — [[Team Topologies notes]]
+- `components` · tags · 3 — [[Component Gallery]], [[Components]], [[Crew update (components)]]
 - `conventions` · tags · 1 — [[Vault conventions]]
-- `crew-scheduling` · tags · 8 — [[Crew Scheduling Design]], [[Crew Scheduling PRD]], [[Crew Scheduling Roadmap]], [[Crew member sets weekly availability]], [[Dispatcher assigns a crew to a job]], [[Dispatcher sees a double-booking warning]], [[Dispatcher sets availability for a crew member]], [[One calendar or three]]
+- `crew-scheduling` · tags · 11 — [[2026-09-24 Dispatch sync]], [[Crew Scheduling Design]], [[Crew Scheduling PRD]], [[Crew Scheduling Roadmap]], [[Crew member sets weekly availability]], [[Crew update (components)]], [[Crew update (plain)]], [[Dispatcher assigns a crew to a job]], [[Dispatcher sees a double-booking warning]], [[Dispatcher sets availability for a crew member]], [[One calendar or three]]
+- `dashboard` · tags · 1 — [[Worky Dashboard]]
 - `decision` · tags · 1 — [[One calendar or three]]
 - `design` · tags · 1 — [[Crew Scheduling Design]]
 - `fictional` · tags · 1 — [[Worky]]
 - `frontmatter` · tags · 1 — [[Vault conventions]]
 - `generated` · tags · 1 — [[Terms]]
 - `index` · tags · 1 — [[Terms]]
+- `journal` · tags · 1 — [[2026-09-28]]
 - `lifespan` · tags · 1 — [[Vault conventions]]
 - `lookup` · tags · 1 — [[Terms]]
+- `meeting` · tags · 1 — [[2026-09-24 Dispatch sync]]
 - `prd` · tags · 1 — [[Crew Scheduling PRD]]
 - `project` · tags · 1 — [[Worky]]
-- `reference` · tags · 2 — [[Components]], [[Vault conventions]]
+- `reading` · tags · 1 — [[Team Topologies notes]]
+- `reference` · tags · 3 — [[Component Gallery]], [[Components]], [[Vault conventions]]
 - `roadmap` · tags · 1 — [[Crew Scheduling Roadmap]]
 - `story` · tags · 4 — [[Crew member sets weekly availability]], [[Dispatcher assigns a crew to a job]], [[Dispatcher sees a double-booking warning]], [[Dispatcher sets availability for a crew member]]
+- `teams` · tags · 1 — [[Team Topologies notes]]
 - `terms` · tags · 1 — [[Terms]]
-- `vault-css` · tags · 1 — [[Components]]
-- `worky` · tags · 9 — [[Crew Scheduling Design]], [[Crew Scheduling PRD]], [[Crew Scheduling Roadmap]], [[Crew member sets weekly availability]], [[Dispatcher assigns a crew to a job]], [[Dispatcher sees a double-booking warning]], [[Dispatcher sets availability for a crew member]], [[One calendar or three]], [[Worky]]
+- `update` · tags · 2 — [[Crew update (components)]], [[Crew update (plain)]]
+- `vault-css` · tags · 2 — [[Component Gallery]], [[Components]]
+- `worky` · tags · 15 — [[2026-09-24 Dispatch sync]], [[2026-09-28]], [[Component Gallery]], [[Crew Scheduling Design]], [[Crew Scheduling PRD]], [[Crew Scheduling Roadmap]], [[Crew member sets weekly availability]], [[Crew update (components)]], [[Crew update (plain)]], [[Dispatcher assigns a crew to a job]], [[Dispatcher sees a double-booking warning]], [[Dispatcher sets availability for a crew member]], [[One calendar or three]], [[Worky]], [[Worky Dashboard]]

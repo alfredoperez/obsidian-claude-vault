@@ -5,7 +5,7 @@ feature: crew-scheduling
 story_id: STORY-003
 slice: next
 priority: P0
-status: draft
+status: Next
 tracker_issue:
 covers_requirements: [R003, R004, R005]
 created: 2026-09-28
@@ -17,7 +17,7 @@ inputs:
 tags: [worky, crew-scheduling, story]
 ---
 
-# STORY-003 — Dispatcher assigns a crew to a job
+# STORY-003 — Dispatcher assigns a crew to a job <span class="badge-later">next</span>
 
 **As a** dispatcher,
 **I want** to drag a crew onto a job on the day board and have it either stick or tell me why it cannot,
@@ -54,6 +54,7 @@ tags: [worky, crew-scheduling, story]
 > **Suggested implementation — not prescriptive.**
 
 - **Approach:** `scheduling` becomes the only writer (design D1). `POST /assignments` runs the hard-rule function from Phase 1 and returns either the saved row or `422` with `{rule, detail}`; the board renders the detail verbatim. Undo is a second assignment row with `replaced_by`, never a delete
+- **Flow:** <span class="step">drop crew</span> <span class="step">POST /assignments</span> <span class="step">hard-rule check</span> <span class="step">save or 422</span>
 - **Key files:** `services/scheduling/src/rules/hard.ts` (exists, untested against a real caller), `services/scheduling/src/assignments/create.ts` (new), `dispatch-console/src/board/DayBoard.tsx`, `dispatch-console/src/board/useDrop.ts`
 - **Proven code:** `spike/day-board-drag` — `4f1c9a2` proves drag at 60 crews × 120 jobs stays under 16 ms per frame when only the two affected cells re-render
 - **Gating wiring:** `PermissionsService.can('scheduling.assign')` gates the drag handles and the endpoint

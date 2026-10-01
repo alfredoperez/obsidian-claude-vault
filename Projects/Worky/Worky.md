@@ -66,15 +66,37 @@ Three front-ends, three core services, and billing in a corner.
 
 A sixth team, **Billing**, built the billing service in 2023 and was disbanded in the 2024 reorg. The service still runs. Its README is accurate, its tests pass, and every change to it is made by whichever Core Services engineer drew the short straw. That corner of the diagram is the one every scheduling decision has to route around: a job that moves days moves its invoice date, and nobody wants to open that code.
 
+## The folder
+
+> [!tree] Projects/Worky/
+> - Worky.md · *this hub: what Worky is, the teams, the current work*
+> - Worky Dashboard.md · *live Dataview tables*
+> - **decisions/** · *questions the reader answers in the file*
+>     - One calendar or three.md · *the open decision*
+> - **meetings/** · *one note per meeting*
+> - **product/crew-scheduling/** · *the live feature*
+>     - Crew Scheduling PRD.md · *requirements, R001 onward*
+>     - Crew Scheduling Roadmap.md · *three slices tied to IDs*
+>     - Crew Scheduling Design.md · *the design of record, in phases*
+>     - Crew Scheduling Story Map.canvas · *the wall*
+>     - Crew Board.base · *stories as a Kanban board and a table*
+>     - **stories/** · *four stories, ready to file*
+> - **updates/** · *weekly updates*
+
 ## Current work
 
 The live feature is **crew scheduling**: replacing the table-and-headset process with an actual scheduling product across all three front-ends.
 
 - [[Crew Scheduling PRD]] — the requirements, R001 onward, and which front-end gets what
 - [[Crew Scheduling Story Map.canvas|Crew Scheduling Story Map]] — the wall: five activities across the top, two release slices below
+- [[Worky Dashboard]] — live tables: stories by status, open decisions, latest updates, what changed this week
 - [[Crew Scheduling Design]] — how the scheduling service grows to carry it, in phases
 - `product/crew-scheduling/stories/` — the first four stories, ready to file
 - [[One calendar or three]] — the open decision: do the three front-ends share one calendar view
+- [[Crew update (components)]] and [[Crew update (plain)]] · this week's update, the same facts in two shapes
+- [[2026-09-24 Dispatch sync]] · the last dispatch sync, with the spreadsheet still to capture
+- [[2026-09-28]] · the daily note for the week's work
+- [[Team Topologies notes]] · the reading behind the team split
 
 ## What is out of scope for the fiction
 

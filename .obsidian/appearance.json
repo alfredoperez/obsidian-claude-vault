@@ -6,7 +6,8 @@
   "enabledCssSnippets": [
     "vault",
     "bear-sidebar",
-    "highlight-shapes"
+    "highlight-shapes",
+    "views"
   ],
   "nativeMenus": false
 }

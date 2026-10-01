@@ -1,0 +1,33 @@
+filters:
+  and:
+    - file.inFolder("Projects/Worky/product/crew-scheduling/stories")
+    - type == "story"
+properties:
+  story_id:
+    displayName: Story
+  priority:
+    displayName: Priority
+  slice:
+    displayName: Slice
+  status:
+    displayName: Status
+views:
+  - type: kanban
+    name: Board
+    groupBy:
+      property: status
+      direction: ASC
+    order:
+      - file.name
+      - story_id
+      - priority
+      - slice
+  - type: table
+    name: Table
+    order:
+      - story_id
+      - file.name
+      - status
+      - priority
+      - slice
+      - covers_requirements
